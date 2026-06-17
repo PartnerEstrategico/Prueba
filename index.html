@@ -3,482 +3,1101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forja Empresas — Dashboard Encuesta de Satisfaccion</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<title>Dashboard – DENTOLASER Galerías</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#7A7A7A;background:#f9f9f7;padding:1rem}
-.hdr{background:#F78805;border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.hdr-logo{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid rgba(255,255,255,.4)}
-.hdr-title{font-size:17px;font-weight:500;color:#fff}
-.hdr-sub{font-size:12px;color:rgba(255,255,255,.85);margin-top:2px}
-.hdr-right select{font-size:13px;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,.18);color:#fff;border:.5px solid rgba(255,255,255,.45);cursor:pointer}
-.hdr-right select option{color:#333;background:#fff}
-.nav{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
-.nav-btn{padding:7px 16px;border-radius:8px;border:.5px solid #d4d4d4;font-size:13px;cursor:pointer;background:#fff;color:#7A7A7A;display:flex;align-items:center;gap:5px}
-.nav-btn.on{background:#F78805;color:#fff;border-color:#F78805}
-.pg{display:none}.pg.on{display:block}
-.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px;margin-bottom:1rem}
-.mc{background:#fef7ee;border-radius:8px;padding:12px 14px;border:.5px solid #fde8c3}
-.mc-lbl{font-size:11px;color:#7A7A7A;margin-bottom:3px}
-.mc-val{font-size:21px;font-weight:500;color:#F78805}
-.mc-val.g{color:#1D9E75}.mc-val.r{color:#c0392b}.mc-val.a{color:#7A7A7A}
-.mc-sub{font-size:11px;color:#aaa;margin-top:1px}
-.card{background:#fff;border:.5px solid #e8e8e8;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem}
-.ct{font-size:13px;font-weight:500;color:#7A7A7A;margin-bottom:10px;display:flex;align-items:center;gap:6px;border-bottom:1.5px solid #fde8c3;padding-bottom:8px}
-.ct i{color:#F78805}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-.lg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px;color:#7A7A7A}
-.lg span{display:flex;align-items:center;gap:4px}
-.lgd{width:9px;height:9px;border-radius:2px;flex-shrink:0}
-.nps-big{font-size:58px;font-weight:500;line-height:1}
-.bdg{display:inline-block;padding:3px 11px;border-radius:20px;font-size:11px;font-weight:500}
-.gauge{height:18px;border-radius:9px;background:linear-gradient(to right,#c0392b 0%,#c0392b 33%,#F78805 33%,#F78805 66%,#1D9E75 66%,#1D9E75 100%);position:relative;margin:10px 0 4px}
-.gpin{position:absolute;top:-5px;width:4px;height:28px;background:#7A7A7A;border-radius:2px;transform:translateX(-50%)}
-.glbl{display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:3px}
-.seg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
-.seg{border-radius:8px;padding:10px 8px;text-align:center}
-.seg-v{font-size:20px;font-weight:500}.seg-l{font-size:11px;margin-top:2px}.seg-p{font-size:10px;margin-top:1px}
-.sr{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.sn{font-size:11px;color:#7A7A7A;min-width:136px;max-width:136px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sbw{flex:1;height:20px;background:#f5f5f5;border-radius:4px;overflow:hidden}
-.sb{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;color:#fff;font-weight:500}
-.snps{font-size:12px;font-weight:500;min-width:36px;text-align:right}
-.hr{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.hrl{font-size:11px;color:#7A7A7A;min-width:38px}
-.hrbw{flex:1;background:#f5f5f5;border-radius:3px;height:18px;overflow:hidden}
-.hrb{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px;font-size:10px;color:#fff;font-weight:500}
-.hrn{font-size:11px;color:#7A7A7A;min-width:30px;text-align:right}
-.tp{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;min-width:42px;text-align:center}
-.ig{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.ins{border-radius:8px;padding:11px 13px}
-.ins-t{font-size:12px;font-weight:500;margin-bottom:5px}
-.ins-b{font-size:11px;line-height:1.65}
-.ql{padding:11px 13px;border-left:3px solid;border-radius:0 4px 4px 0}
-.ql-t{font-size:12px;font-weight:500;margin-bottom:5px}
-.ql-b{font-size:11px;line-height:1.65}
-.qg{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-@media(max-width:600px){.two,.seg3,.ig,.qg{grid-template-columns:1fr}.sn{min-width:90px;max-width:90px}.nps-big{font-size:42px}body{padding:.5rem}}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#0c41ab;--primary2:#0a2089;--teal:#2e63cd;
+  --green:#1a9e60;--red:#c0392b;--amber:#d4820a;--purple:#6a3db8;
+  --bg:#f2f4f9;--surface:#ffffff;--surface2:#eef1f8;
+  --text:#1a1a2e;--text2:#5a6270;--border:#d4d9e8;
+  --radius:8px;--radius-lg:12px;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+.wrap{width:100%;min-height:100vh;display:flex;flex-direction:column;}
+.hdr{background:linear-gradient(135deg,#071560 0%,#0a2089 50%,#0c41ab 100%);color:#fff;padding:13px 28px;border-bottom:3px solid #1d3eb8;display:flex;align-items:center;justify-content:space-between;}
+.hdr-logo{width:40px;height:40px;background:rgba(255,255,255,0.13);border:2px solid rgba(255,255,255,0.3);border-radius:9px;display:flex;align-items:center;justify-content:center;margin-right:13px;font-weight:900;font-size:12px;color:#fff;flex-shrink:0;}
+.hdr-left{display:flex;align-items:center;}
+.hdr-name{font-size:16px;font-weight:800;color:#fff;letter-spacing:.3px;}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,0.58);margin-top:2px;}
+.hdr-right{font-size:11px;color:rgba(255,255,255,0.58);text-align:right;border-left:1px solid rgba(255,255,255,0.18);padding-left:16px;}
+.hdr-right strong{color:#fff;display:block;font-size:13px;font-weight:700;}
+.tabs{background:#091878;display:flex;padding:0 28px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.tab{padding:11px 18px;font-size:13px;color:rgba(255,255,255,0.42);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;}
+.tab.active{color:#fff;font-weight:700;border-bottom-color:#4d7aef;}
+.tab:hover:not(.active){color:rgba(255,255,255,0.78);}
+.filterbar{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.filterbar label{font-size:12px;color:var(--text2);font-weight:600;}
+.fsel{font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:5px 28px 5px 10px;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;}
+.fsel:focus{outline:none;border-color:var(--primary);}
+.pill-b{background:var(--primary);color:#fff;border-radius:20px;padding:3px 13px;font-size:12px;font-weight:700;}
+.fdate-wrap{display:flex;align-items:center;gap:7px;}
+#fecha-wrap,#rango-wrap{display:none;}
+.page{display:none;padding:20px 28px;background:var(--bg);flex:1;}
+.page.active{display:block;}
+.lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;color:var(--text2);margin-bottom:10px;}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:860px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--surface);border-radius:var(--radius);padding:14px 16px;border:1px solid var(--border);border-top:4px solid var(--border);}
+.kpi.b{border-top-color:var(--primary);}.kpi.g{border-top-color:var(--green);}
+.kpi.r{border-top-color:var(--red);}.kpi.y{border-top-color:var(--amber);}
+.kpi-l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:4px;font-weight:600;}
+.kpi-n{font-size:30px;font-weight:900;line-height:1.1;}
+.kpi.b .kpi-n{color:var(--primary);}.kpi.g .kpi-n{color:var(--green);}
+.kpi.r .kpi-n{color:var(--red);}.kpi.y .kpi-n{color:var(--amber);}
+.kpi-s{font-size:11px;color:var(--text2);margin-top:5px;}
+.kpi-p{font-weight:700;}
+.kpi.b .kpi-p{color:var(--primary);}.kpi.g .kpi-p{color:var(--green);}
+.kpi.r .kpi-p{color:var(--red);}.kpi.y .kpi-p{color:var(--amber);}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:14px;}
+.card.hl{border-left:4px solid var(--primary);}
+.card.hl-g{border-left:4px solid var(--green);}
+.card.hl-r{border-left:4px solid var(--red);}
+.card.hl-y{border-left:4px solid var(--amber);}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.ct{font-size:13px;font-weight:700;color:var(--text);}
+.csub{font-size:11px;color:var(--text2);}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:700px){.two,.three{grid-template-columns:1fr;}}
+.br{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.bl{font-size:12px;color:var(--text2);width:165px;flex-shrink:0;line-height:1.3;}
+.bt{flex:1;height:9px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.bf{height:100%;border-radius:4px;}
+.bv{font-size:11px;color:var(--text);width:95px;text-align:right;flex-shrink:0;}
+.hbar{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hbar-lbl{font-size:12px;color:var(--text);width:125px;flex-shrink:0;}
+.hbar-track{flex:1;height:9px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:4px;}
+.hbar-val{font-size:11px;color:var(--text2);width:90px;text-align:right;flex-shrink:0;}
+.dg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;}
+.dv{font-size:22px;font-weight:900;}
+.dbw{height:48px;display:flex;align-items:flex-end;justify-content:center;margin:4px 0;}
+.db{width:36px;border-radius:3px 3px 0 0;}
+.dl{font-size:10px;color:var(--text2);}
+.dp{font-size:11px;font-weight:700;}
+.cancel-g{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:10px;}
+@media(max-width:700px){.cancel-g{grid-template-columns:repeat(3,1fr);}}
+.cp{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center;}
+.cp.hi{background:#fef2f2;border-color:#fca5a5;}
+.cp.tot{background:#ecfdf5;border-color:#6ee7b7;}
+.cp.zero{background:var(--surface2);border-color:var(--border);}
+.cp-n{font-size:24px;font-weight:900;color:var(--primary);}
+.cp.hi .cp-n{color:var(--red);}.cp.tot .cp-n{color:var(--green);}
+.cp.zero .cp-n{color:var(--text2);}
+.cp-l{font-size:10px;color:var(--text2);line-height:1.4;margin-top:3px;}
+/* COBERTURA */
+.cob-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+.cob-box{padding:16px;border-radius:var(--radius-lg);border:1px solid var(--border);text-align:center;}
+.cob-box.p1{background:#eff6ff;border-color:#93c5fd;}
+.cob-box.p2{background:#fef9ec;border-color:#fcd34d;}
+.cob-box.p3{background:#ecfdf5;border-color:#6ee7b7;}
+.cob-n{font-size:36px;font-weight:900;line-height:1;}
+.cob-box.p1 .cob-n{color:var(--primary);}
+.cob-box.p2 .cob-n{color:var(--amber);}
+.cob-box.p3 .cob-n{color:var(--green);}
+.cob-l{font-size:11px;color:var(--text2);margin-top:5px;}
+.cob-sub{font-size:10px;color:var(--text2);margin-top:3px;}
+.tbl-wrap{overflow-x:auto;}
+.tbl{width:100%;font-size:12px;border-collapse:collapse;}
+.tbl th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#fff;background:var(--primary);padding:9px 11px;text-align:left;}
+.tbl td{padding:8px 11px;border-bottom:1px solid var(--border);color:var(--text);}
+.tbl tr:hover td{background:var(--surface2);}
+.tbl tr.tot td{font-weight:700;background:var(--surface2);}
+.bdg{font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;}
+.b-g{background:#d1fae5;color:#065f46;}.b-r{background:#fee2e2;color:#991b1b;}
+.b-y{background:#fef3c7;color:#92400e;}.b-b{background:#dbeafe;color:#1e3a8a;}
+.b-gr{background:#f1f5f9;color:#475569;}
+.at{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:var(--radius);padding:9px 13px;font-size:12px;color:#064e3b;margin-top:8px;line-height:1.6;}
+.aa{background:#fffbeb;border:1px solid #fcd34d;border-radius:var(--radius);padding:9px 13px;font-size:12px;color:#78350f;margin-top:8px;line-height:1.6;}
+.ar{background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--radius);padding:9px 13px;font-size:12px;color:#7f1d1d;margin-top:8px;line-height:1.6;}
+.ai{background:#eff6ff;border:1px solid #93c5fd;border-radius:var(--radius);padding:9px 13px;font-size:12px;color:#1e3a8a;margin-top:8px;line-height:1.6;}
+.leg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);margin-bottom:8px;}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;}
+.stat-box{padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border);}
+.stat-n{font-size:24px;font-weight:900;}
+.stat-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-top:3px;}
+
+/* CUMPLIMIENTO */
+.cum-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:860px){.cum-kpi-row{grid-template-columns:repeat(2,1fr);}}
+.cum-kpi{border-radius:var(--radius);padding:14px 16px;border:2px solid;text-align:center;}
+.cum-kpi.ok{background:#d1fae5;border-color:#6ee7b7;}
+.cum-kpi.bad{background:#fee2e2;border-color:#fca5a5;}
+.cum-kpi.warn{background:#fef3c7;border-color:#fcd34d;}
+.cum-kpi.info{background:#eff6ff;border-color:#93c5fd;}
+.cum-kpi-n{font-size:32px;font-weight:900;line-height:1;}
+.cum-kpi.ok .cum-kpi-n{color:#065f46;}
+.cum-kpi.bad .cum-kpi-n{color:#991b1b;}
+.cum-kpi.warn .cum-kpi-n{color:#92400e;}
+.cum-kpi.info .cum-kpi-n{color:#1e3a8a;}
+.cum-kpi-l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-top:5px;font-weight:600;}
+/* month cards */
+.cum-month-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.cmh{padding:10px 16px;display:flex;flex-direction:column;}
+.cmh-title{font-size:14px;font-weight:800;color:#fff;}
+.cmh-sub{font-size:10px;color:rgba(255,255,255,0.65);margin-top:2px;}
+.cmb{display:flex;align-items:center;gap:14px;padding:14px 16px;}
+.cm-ring-wrap{position:relative;flex-shrink:0;width:110px;height:110px;}
+.cm-ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-size:11px;font-weight:800;line-height:1.3;color:var(--text);}
+.cm-stats{flex:1;font-size:12px;}
+.cm-stat{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);}
+.cm-stat:last-child{border-bottom:none;}
+.cm-stat-l{color:var(--text2);}
+.cm-stat-v{font-weight:700;}
+/* calendar */
+.cal-grid{display:grid;gap:10px;margin-bottom:14px;}
+.week-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.week-hdr{background:var(--primary2);color:#fff;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;}
+.week-hdr-lbl{font-weight:700;font-size:12px;}
+.week-badge{border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;}
+.wb-ok{background:#d1fae5;color:#065f46;}.wb-warn{background:#fef3c7;color:#92400e;}
+.wb-bad{background:#fee2e2;color:#991b1b;}.wb-pend{background:#e0f2fe;color:#075985;}
+.days-row{display:flex;gap:7px;padding:10px 16px;flex-wrap:wrap;}
+.day-chip{border-radius:7px;padding:7px 10px;font-size:11px;font-weight:700;text-align:center;min-width:82px;}
+.day-chip.ok{background:#d1fae5;color:#064e3b;border:1px solid #6ee7b7;}
+.day-chip.missing{background:#fee2e2;color:#7f1d1d;border:1px solid #fca5a5;}
+.day-chip.today{background:#fef9ec;color:#78350f;border:2px dashed #fcd34d;}
+.chip-icon{font-size:13px;display:block;margin-bottom:2px;}
+.chip-lbl{display:block;font-size:9px;font-weight:600;opacity:0.75;margin-top:1px;}
+/* dow */
+.dow-analysis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px;}
+.dow-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;}
+.dow-n{font-size:20px;font-weight:900;}
+.dow-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-top:3px;}
+.dow-rate{font-size:11px;font-weight:700;margin-top:4px;}
+.streak-bar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden;margin-top:6px;}
+.streak-fill{height:100%;border-radius:4px;}
 </style>
 </head>
 <body>
+<div class="wrap">
 
 <div class="hdr">
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="hdr-logo"><i class="ti ti-building-hospital" style="font-size:20px;color:#fff" aria-hidden="true"></i></div>
+  <div class="hdr-left">
+    <div class="hdr-logo">DL</div>
     <div>
-      <div class="hdr-title">Forja Empresas &mdash; Encuesta de satisfacci&oacute;n</div>
-      <div class="hdr-sub">Contigo siempre &middot; Experiencia del paciente</div>
+      <div class="hdr-name">DENTOLASER · Sede Galerías</div>
+      <div class="hdr-sub">Gestión de confirmación de citas · Campaña outbound</div>
     </div>
   </div>
   <div class="hdr-right">
-    <select id="selMes" onchange="render()">
-      <option value="all">A&ntilde;o completo 2026</option>
-      <option value="Mayo">Mayo 2026</option>
-      <option value="Junio" selected>Junio 2026</option>
+    <strong id="hdr-meta">Cargando…</strong>
+    Sede Galerías · Múltiples doctores
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="st('resumen')">Resumen ejecutivo</div>
+  <div class="tab" onclick="st('tendencia')">Tendencia diaria</div>
+  <div class="tab" onclick="st('doctores')">Por doctor</div>
+  <div class="tab" onclick="st('cobertura')">Fuentes y cobertura</div>
+  <div class="tab" onclick="st('cumplimiento')">Cumplimiento de envío</div>
+</div>
+
+<div class="filterbar">
+  <label>Período:</label>
+  <select class="fsel" id="periodo-sel" onchange="onPeriodo()">
+    <option value="mayo">Mayo 2026 (12 días)</option>
+    <option value="junio">Junio 2026 (4 días)</option>
+    <option value="todos">Todos los períodos</option>
+    <option value="fecha" selected>Fecha específica</option>
+    <option value="rango">Rango personalizado</option>
+  </select>
+  <div id="fecha-wrap" class="fdate-wrap">
+    <label>Fecha:</label>
+    <select class="fsel" id="fecha-sel" onchange="applyFilter()">
+      <option value="504">4 may 2026</option><option value="505">5 may 2026</option>
+      <option value="506">6 may 2026</option><option value="508">8 may 2026</option>
+      <option value="512">12 may 2026</option><option value="513">13 may 2026</option>
+      <option value="515">15 may 2026</option><option value="519">19 may 2026</option>
+      <option value="520">20 may 2026</option><option value="522">22 may 2026</option>
+      <option value="527">27 may 2026</option><option value="528">28 may 2026</option>
+      <option value="602">2 jun 2026</option><option value="603">3 jun 2026</option>
+      <option value="604">4 jun 2026</option><option value="605">5 jun 2026</option>
+      <option value="610">10 jun 2026</option><option value="611">11 jun 2026</option>
+      <option value="617" selected>17 jun 2026</option>
     </select>
   </div>
-</div>
-
-<div class="nav">
-  <button class="nav-btn on" onclick="goPage('p-exp',this)"><i class="ti ti-heart" aria-hidden="true"></i>Experiencia del paciente</button>
-  <button class="nav-btn" onclick="goPage('p-nps',this)"><i class="ti ti-star" aria-hidden="true"></i>An&aacute;lisis NPS</button>
-  <button class="nav-btn" onclick="goPage('p-gestion',this)"><i class="ti ti-phone" aria-hidden="true"></i>Gesti&oacute;n de llamadas</button>
-  <button class="nav-btn" onclick="goPage('p-franjas',this)"><i class="ti ti-clock" aria-hidden="true"></i>Franjas horarias</button>
-</div>
-
-<div id="p-exp" class="pg on">
-  <div class="mcards" id="mc-exp"></div>
-  <div class="two">
-    <div class="card"><div class="ct"><i class="ti ti-clipboard-list" aria-hidden="true"></i>Satisfacci&oacute;n global &mdash; P1</div><div class="lg" id="lg-p1"></div><div style="position:relative;height:200px"><canvas id="ch-p1"></canvas></div></div>
-    <div class="card"><div class="ct"><i class="ti ti-users" aria-hidden="true"></i>Recomendaci&oacute;n &mdash; P2</div><div class="lg" id="lg-p2"></div><div style="position:relative;height:200px"><canvas id="ch-p2"></canvas></div></div>
+  <div id="rango-wrap" class="fdate-wrap">
+    <label>Desde:</label>
+    <select class="fsel" id="rango-desde" onchange="applyFilter()">
+      <option value="504" selected>4 may 2026</option><option value="505">5 may 2026</option>
+      <option value="506">6 may 2026</option><option value="508">8 may 2026</option>
+      <option value="512">12 may 2026</option><option value="513">13 may 2026</option>
+      <option value="515">15 may 2026</option><option value="519">19 may 2026</option>
+      <option value="520">20 may 2026</option><option value="522">22 may 2026</option>
+      <option value="527">27 may 2026</option><option value="528">28 may 2026</option>
+      <option value="602">2 jun 2026</option><option value="603">3 jun 2026</option>
+      <option value="604">4 jun 2026</option><option value="605">5 jun 2026</option>
+      <option value="610">10 jun 2026</option><option value="611">11 jun 2026</option>
+      <option value="617">17 jun 2026</option>
+    </select>
+    <label>Hasta:</label>
+    <select class="fsel" id="rango-hasta" onchange="applyFilter()">
+      <option value="504">4 may 2026</option><option value="505">5 may 2026</option>
+      <option value="506">6 may 2026</option><option value="508">8 may 2026</option>
+      <option value="512">12 may 2026</option><option value="513">13 may 2026</option>
+      <option value="515">15 may 2026</option><option value="519">19 may 2026</option>
+      <option value="520">20 may 2026</option><option value="522">22 may 2026</option>
+      <option value="527">27 may 2026</option><option value="528">28 may 2026</option>
+      <option value="602">2 jun 2026</option><option value="603">3 jun 2026</option>
+      <option value="604">4 jun 2026</option><option value="605">5 jun 2026</option>
+      <option value="610">10 jun 2026</option><option value="611">11 jun 2026</option>
+      <option value="617" selected>17 jun 2026</option>
+    </select>
   </div>
-  <div class="card"><div class="ct"><i class="ti ti-chart-bar" aria-hidden="true"></i>NPS y satisfacci&oacute;n promedio por servicio</div><div id="svc-chart"></div></div>
-  <div class="card"><div class="ct"><i class="ti ti-building" aria-hidden="true"></i>NPS por aseguradora</div><div id="aseg-chart"></div></div>
+  <span class="pill-b" id="pill-citas">—</span>
 </div>
 
-<div id="p-nps" class="pg">
-  <div class="card">
-    <div class="ct"><i class="ti ti-star" aria-hidden="true"></i>&Iacute;ndice NPS &mdash; escala 1 a 9</div>
-    <div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:14px">
-      <div><div style="font-size:12px;color:#aaa;margin-bottom:4px">NPS recomendaci&oacute;n (P2)</div><div class="nps-big" id="nps-num">-</div><div id="nps-badge" style="margin-top:6px"></div></div>
-      <div><div style="font-size:12px;color:#aaa;margin-bottom:4px">NPS satisfacci&oacute;n (P1)</div><div style="font-size:36px;font-weight:500;color:#7A7A7A" id="nps-p1-num">-</div><div id="nps-p1-badge" style="margin-top:6px"></div></div>
-      <div id="nps-formula" style="font-size:12px;color:#7A7A7A;line-height:1.9;border-left:3px solid #F78805;padding-left:12px"></div>
+<!-- ══ RESUMEN ══ -->
+<div class="page active" id="p-resumen">
+  <p class="lbl" id="lbl-periodo">INDICADORES</p>
+  <div class="kpi-row">
+    <div class="kpi b"><div class="kpi-l">Total citas</div><div class="kpi-n" id="k-total">—</div><div class="kpi-s" id="k-total-s">—</div></div>
+    <div class="kpi g"><div class="kpi-l">Contactadas</div><div class="kpi-n" id="k-contact">—</div><div class="kpi-s"><span class="kpi-p" id="k-cr">—</span> contact ratio</div></div>
+    <div class="kpi g"><div class="kpi-l">Confirman asistencia</div><div class="kpi-n" id="k-will">—</div><div class="kpi-s"><span class="kpi-p" id="k-will-p">—</span> de encuestados</div></div>
+    <div class="kpi r"><div class="kpi-l">Cancelaciones</div><div class="kpi-n" id="k-wont">—</div><div class="kpi-s"><span class="kpi-p" id="k-wont-p">—</span> cupos liberados</div></div>
+  </div>
+  <div class="card hl-r">
+    <div class="ch"><span class="ct">Cupos liberados por actividad</span><span class="bdg b-r" id="cancel-badge">—</span></div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:12px;" id="cancel-desc"></p>
+    <div class="cancel-g" id="cancel-grid"></div>
+    <div id="cancel-alert"></div>
+  </div>
+  <div class="two">
+    <div class="card">
+      <div class="ch"><span class="ct">Resultado encuesta</span></div>
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="width:150px;height:150px;flex-shrink:0;"><canvas id="dc-encuesta"></canvas></div>
+        <div style="flex:1;" id="dc-legend"></div>
+      </div>
     </div>
-    <div class="gauge"><div class="gpin" id="gauge-pin" style="left:50%"></div></div>
-    <div class="glbl"><span>-100 Critico</span><span>0 Neutro</span><span>+100 Excelente</span></div>
-    <div class="seg3" id="nps-segs"></div>
-  </div>
-  <div id="nps-comp-card" class="card" style="display:none">
-    <div class="ct"><i class="ti ti-trending-up" aria-hidden="true"></i>Evoluci&oacute;n mensual del NPS</div>
-    <div style="position:relative;height:210px"><canvas id="ch-npscomp"></canvas></div>
-    <div class="lg" style="margin-top:8px;margin-bottom:0"><span><span class="lgd" style="background:#F78805"></span>NPS P2 recomendaci&oacute;n</span><span><span class="lgd" style="background:#6EC1E4"></span>NPS P1 satisfacci&oacute;n</span></div>
+    <div class="card">
+      <div class="ch"><span class="ct">Resultado de la llamada</span></div>
+      <div id="hbar-llamada"></div>
+      <div style="margin-top:16px;">
+        <p class="lbl">Duración de llamadas contestadas</p>
+        <div class="dg" id="dur-grid"></div>
+        <div id="dur-alert"></div>
+      </div>
+    </div>
   </div>
   <div class="card">
-    <div class="ct"><i class="ti ti-clipboard-text" aria-hidden="true"></i>An&aacute;lisis cuantitativo y cualitativo</div>
-    <div class="mcards" id="mc-nps" style="margin-bottom:12px"></div>
-    <div class="qg" id="qual-grid"></div>
+    <div class="ch"><span class="ct">Métricas de calidad</span><span class="csub" id="metricas-sub">—</span></div>
+    <div class="stat-row" id="metricas-grid"></div>
   </div>
 </div>
 
-<div id="p-gestion" class="pg">
-  <div class="mcards" id="mc-gest"></div>
-  <div class="two">
-    <div class="card"><div class="ct"><i class="ti ti-phone" aria-hidden="true"></i>Resultado de llamadas</div><div class="lg" id="lg-disp"></div><div style="position:relative;height:220px"><canvas id="ch-disp"></canvas></div></div>
-    <div class="card"><div class="ct"><i class="ti ti-clock" aria-hidden="true"></i>Duraci&oacute;n de llamadas contestadas</div><div class="lg" id="lg-dur"></div><div style="position:relative;height:220px"><canvas id="ch-dur"></canvas></div></div>
-  </div>
-  <div class="card"><div class="ct"><i class="ti ti-stethoscope" aria-hidden="true"></i>Volumen de encuestas por servicio</div><div id="ch-serv-w" style="position:relative"><canvas id="ch-serv"></canvas></div></div>
-</div>
-
-<div id="p-franjas" class="pg">
-  <div class="mcards" id="mc-franjas"></div>
+<!-- ══ TENDENCIA ══ -->
+<div class="page" id="p-tendencia">
+  <p class="lbl">TENDENCIA DIARIA</p>
   <div class="card">
-    <div class="ct"><i class="ti ti-chart-bar" aria-hidden="true"></i>Contactadas vs encuestas por hora</div>
-    <div class="lg"><span><span class="lgd" style="background:#1D9E75"></span>Contactadas</span><span><span class="lgd" style="background:#7A7A7A"></span>Encuesta respondida</span></div>
-    <div style="position:relative;height:230px"><canvas id="ch-horas"></canvas></div>
+    <div class="ch"><span class="ct">Citas totales vs. Contactadas por día</span></div>
+    <div style="height:230px;"><canvas id="chart-tend-bar"></canvas></div>
   </div>
   <div class="two">
-    <div class="card"><div class="ct"><i class="ti ti-trending-up" aria-hidden="true"></i>Tasa de conversi&oacute;n por hora</div><div id="conv-bars"></div></div>
-    <div class="card"><div class="ct"><i class="ti ti-calendar-week" aria-hidden="true"></i>Actividad por d&iacute;a de semana</div><div style="position:relative;height:230px"><canvas id="ch-dias"></canvas></div></div>
+    <div class="card">
+      <div class="ch"><span class="ct">Contact ratio diario (%)</span></div>
+      <div style="height:185px;"><canvas id="chart-cr-line"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">Cancelaciones por día</span></div>
+      <div style="height:185px;"><canvas id="chart-cancel-bar"></canvas></div>
+    </div>
   </div>
-  <div class="card"><div class="ct"><i class="ti ti-bulb" aria-hidden="true"></i>Recomendaciones operativas</div><div class="ig" id="franjas-ins"></div></div>
+  <div class="card">
+    <div class="ch"><span class="ct">Resumen por jornada</span></div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Fecha</th><th>Total</th><th>Contactadas</th><th>Contact ratio</th><th>Confirman</th><th>Cancela</th><th>Survey ratio</th><th>Dur. &gt;30s</th></tr></thead>
+        <tbody id="tbl-tend"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous"></script>
+<!-- ══ DOCTORES ══ -->
+<div class="page" id="p-doctores">
+  <p class="lbl" id="lbl-doc">POR DOCTOR</p>
+  <div class="card">
+    <div class="ch"><span class="ct">Citas por doctor · período seleccionado</span><span class="csub" id="doc-sub">—</span></div>
+    <div style="height:230px;"><canvas id="chart-doc-bar"></canvas></div>
+  </div>
+  <div class="two">
+    <div class="card">
+      <div class="ch"><span class="ct">Distribución porcentual</span></div>
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="width:150px;height:150px;flex-shrink:0;"><canvas id="dc-doc"></canvas></div>
+        <div id="doc-legend" style="flex:1;"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">Actividades del período</span><span class="csub" id="act-sub">—</span></div>
+      <div id="act-bars"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">Detalle por doctor</span></div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Doctor(a)</th><th>Citas</th><th>% del período</th></tr></thead>
+        <tbody id="tbl-doc"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COBERTURA ══ -->
+<div class="page" id="p-cobertura">
+  <p class="lbl" id="lbl-cob">FUENTES Y COBERTURA TELEFÓNICA</p>
+  <div class="three" style="margin-bottom:14px;">
+    <div class="cob-box p3" style="text-align:center;padding:20px 24px;">
+      <div class="cob-n" id="cob-p0">—</div>
+      <div class="cob-l" style="font-size:13px;font-weight:700;margin-top:6px;">Con teléfono principal</div>
+      <div class="cob-sub" style="font-size:12px;margin-top:4px;">100% · todos los pacientes</div>
+      <div style="font-size:11px;color:#065f46;margin-top:8px;font-weight:600;">✅ Base de contacto garantizada</div>
+    </div>
+    <div class="cob-box p1" style="text-align:center;padding:20px 24px;border-color:#fca5a5;">
+      <div class="cob-n" id="cob-p1">—</div>
+      <div class="cob-l" style="font-size:13px;font-weight:700;margin-top:6px;">Sin número alterno</div>
+      <div class="cob-sub" id="cob-p1-pct" style="font-size:12px;margin-top:4px;">—</div>
+      <div style="font-size:11px;color:#991b1b;margin-top:8px;font-weight:600;">⚠ Sin segunda oportunidad de contacto</div>
+    </div>
+    <div class="cob-box p2" style="text-align:center;padding:20px 24px;">
+      <div class="cob-n" id="cob-p3">—</div>
+      <div class="cob-l" style="font-size:13px;font-weight:700;margin-top:6px;">Con 3er teléfono</div>
+      <div class="cob-sub" id="cob-p3-pct" style="font-size:12px;margin-top:4px;">—</div>
+      <div style="font-size:11px;color:#065f46;margin-top:8px;font-weight:600;" id="cob-p3-note">—</div>
+    </div>
+  </div>
+  <div id="cob-alert-main"></div>
+  <div class="card" style="margin-top:14px;">
+    <div class="ch"><span class="ct">Cobertura telefónica por tipo de registro</span></div>
+    <div id="hbar-cobertura"></div>
+    <div id="cob-alert-tip"></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">Cobertura por jornada</span></div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Fecha</th><th>Total pacientes</th><th>Sin alterno ⚠</th><th>Con 2do tel. ✅</th><th>Con 3er tel. ✅</th><th>% con alterno</th></tr></thead>
+        <tbody id="tbl-cob"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CUMPLIMIENTO ══ -->
+<div class="page" id="p-cumplimiento">
+  <p class="lbl">CUMPLIMIENTO DE ENVÍO DE BASE · A HOY 17 JUNIO 2026</p>
+
+  <!-- Comparativo por mes -->
+  <p class="lbl">COMPARATIVO POR MES</p>
+  <div class="three" style="margin-bottom:14px;">
+    <div class="cum-month-card">
+      <div class="cmh" style="background:#0c41ab;">
+        <span class="cmh-title">Mayo 2026</span>
+        <span class="cmh-sub">Lun 4 may → Sáb 30 may</span>
+      </div>
+      <div class="cmb">
+        <div class="cm-ring-wrap"><canvas id="ring-mayo" width="110" height="110"></canvas><div class="cm-ring-center" id="ring-mayo-lbl"></div></div>
+        <div class="cm-stats" id="stats-mayo"></div>
+      </div>
+    </div>
+    <div class="cum-month-card">
+      <div class="cmh" style="background:#1a5c3a;">
+        <span class="cmh-title">Junio 2026</span>
+        <span class="cmh-sub">Lun 1 jun → Hoy 9 jun</span>
+      </div>
+      <div class="cmb">
+        <div class="cm-ring-wrap"><canvas id="ring-junio" width="110" height="110"></canvas><div class="cm-ring-center" id="ring-junio-lbl"></div></div>
+        <div class="cm-stats" id="stats-junio"></div>
+      </div>
+    </div>
+    <div class="cum-month-card" style="border-color:#d4820a;">
+      <div class="cmh" style="background:#7a4800;">
+        <span class="cmh-title">Acumulado</span>
+        <span class="cmh-sub">4 may → 9 jun 2026</span>
+      </div>
+      <div class="cmb">
+        <div class="cm-ring-wrap"><canvas id="ring-total" width="110" height="110"></canvas><div class="cm-ring-center" id="ring-total-lbl"></div></div>
+        <div class="cm-stats" id="stats-total"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerta gerencial -->
+  <div class="card hl-r">
+    <div class="ch"><span class="ct">⚠ Alerta gerencial</span><span class="bdg b-r">13 días sin envío</span></div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px;">
+      De <strong>29 días hábiles</strong> transcurridos (lun–sáb, excluyendo festivos Colombia), solo se recibió base en <strong>16</strong>.
+      El <strong>43.3%</strong> de los días laborables no se confirmaron citas.
+    </p>
+    <div class="ar">🔴 <strong>Patrón crítico:</strong> Los <strong>sábados</strong> tienen 0% de cumplimiento (0 de 5). <strong>Lunes y jueves</strong> tienen 40% de incumplimiento cada uno. La semana del 25–30 mayo fue la peor: solo 2 de 6 bases enviadas (67% de incumplimiento).</div>
+    <div class="aa" style="margin-top:8px;">💰 <strong>Impacto estimado:</strong> ~1.170 citas (13 días × 90 promedio) no recibieron llamada de confirmación automatizada. Con un contact ratio del 80%, aproximadamente <strong>936 pacientes</strong> no fueron contactados.</div>
+  </div>
+
+  <!-- Calendario semanal -->
+  <p class="lbl">CALENDARIO DE ENVÍOS DÍA A DÍA</p>
+  <div id="cal-grid"></div>
+
+  <!-- Por día de semana -->
+  <p class="lbl" style="margin-top:6px;">CUMPLIMIENTO POR DÍA DE SEMANA</p>
+  <div class="dow-analysis" id="dow-analysis"></div>
+
+  <!-- Gráfico semanal + impacto -->
+  <div class="two">
+    <div class="card">
+      <div class="ch"><span class="ct">Envíos por semana · apilado</span></div>
+      <div style="height:210px;"><canvas id="chart-cum-bar"></canvas></div>
+    </div>
+    <div class="card hl-y">
+      <div class="ch"><span class="ct">Impacto estimado en citas no confirmadas</span></div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Promedio de <strong>~90 citas/día</strong> basado en los 16 informes recibidos.</p>
+      <div id="impacto-grid"></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
 <script>
-// ── DATOS ──────────────────────────────────────────────
-var DB = {
-  Mayo: {
-    total:242, answer:184, noAnswer:30, voicemail:24, busy:3, invalid:1,
-    durGt45:111, dur1_15:45, dur31_45:5, dur16_30:23, encP1:97, encP2:91,
-    p1:{1:7,2:1,3:3,5:1,6:4,7:6,8:14,9:61},
-    p2:{1:6,3:2,6:1,7:4,8:18,9:60},
-    svc:{"Laboratorios":{n:49,nps:57,p1:7.6,p2:8.1},"Curaciones":{n:17,nps:68,p1:8.4,p2:8.4},"Psicosocial":{n:9,nps:44,p1:7.8,p2:7.9},"Especialista":{n:13,nps:55,p1:7.7,p2:8.4},"Nutricion":{n:5,nps:88,p1:8.9,p2:8.9},"Enf turnos":{n:5,nps:-29,p1:5.4,p2:4.7}},
-    aseg:{"Compensar":{n:61,nps:57},"Aliansalud":{n:53,nps:74},"Colsanitas":{n:10,nps:62},"Sura":{n:4,nps:75},"Allianz":{n:6,nps:21}},
-    hrC:[15,10,59,23,13,11,11,8,1,1,13,19], hrE:[6,3,38,17,9,10,4,5,0,1,2,3],
-    dC:[5,43,25,30,50,31], dE:[3,26,15,4,45,5]
-  },
-  Junio: {
-    total:1059, answer:855, noAnswer:94, voicemail:101, busy:7, invalid:2,
-    durGt45:600, dur1_15:107, dur31_45:38, dur16_30:110, encP1:524, encP2:503,
-    p1:{1:9,2:3,3:3,4:4,5:12,6:9,7:33,8:88,9:363},
-    p2:{1:9,2:2,3:2,4:3,5:11,6:12,7:29,8:70,9:365},
-    svc:{"Terapia fisica":{n:150,nps:60,p1:8.3,p2:8.3},"Fonoaudiologia":{n:131,nps:69,p1:8.2,p2:8.5},"T. ocupacional":{n:94,nps:71,p1:8.5,p2:8.4},"T. respiratoria":{n:79,nps:67,p1:8.0,p2:8.3},"Laboratorios":{n:14,nps:57,p1:7.6,p2:8.1},"Enf domiciliaria":{n:11,nps:73,p1:8.8,p2:8.7},"Geriatria":{n:5,nps:60,p1:8.2,p2:8.4}},
-    aseg:{"Compensar":{n:225,nps:57},"Aliansalud":{n:152,nps:74},"Colsanitas":{n:48,nps:62},"Sura":{n:16,nps:75},"Allianz":{n:8,nps:21},"Medplus":{n:6,nps:50}},
-    hrC:[58,62,163,189,156,34,106,33,25,17,12,0], hrE:[27,36,135,94,58,26,86,25,20,13,6,0],
-    dC:[33,221,136,164,248,53], dE:[17,132,65,33,225,54]
-  }
+Chart.register(ChartDataLabels);
+
+// ══ DATOS REALES POR JORNADA ══════════════════════════════════════
+const DATA = {
+  '504':{label:'4 may',total:74, answered:53,vm:9, na:10,busy:1,invalid:1,noring:0,will:38,wont:1, ignored:14,dur:[2,2,7,42], p1:74,p2:3, p3:0, only1:71,
+    doc:{smb:30,jdcp:0,dcce:0,jcpg:0,mb:0,rm:0,mra:0,other:44},
+    act:{'Valoración':21,'P. Enfilado':15,'P. Rodete':12,'Entrega Prótesis':10,'Imp. Preliminar':10,'Imp. Definitiva':3,'Control':3}},
+  '505':{label:'5 may',total:75, answered:63,vm:4, na:6, busy:1,invalid:0,noring:1,will:39,wont:3, ignored:21,dur:[3,3,12,45],p1:75,p2:34,p3:3, only1:41,
+    doc:{smb:29,jdcp:0,dcce:0,jcpg:0,mb:0,rm:25,mra:21,other:0},
+    act:{'Valoración':18,'P. Rodete':18,'Imp. Preliminar':16,'P. Enfilado':9,'Imp. Definitiva':7,'Entrega Prótesis':5,'Control':2}},
+  '506':{label:'6 may',total:50, answered:46,vm:2, na:2, busy:0,invalid:0,noring:0,will:31,wont:1, ignored:14,dur:[2,2,5,37], p1:50,p2:27,p3:2, only1:23,
+    doc:{smb:28,jdcp:0,dcce:16,jcpg:0,mb:0,rm:0,mra:6,other:0},
+    act:{'Valoración':12,'Imp. Preliminar':11,'Imp. Definitiva':8,'P. Rodete':7,'P. Enfilado':6,'Entrega Prótesis':5,'Control':1}},
+  '508':{label:'8 may',total:81, answered:68,vm:4, na:9, busy:0,invalid:0,noring:0,will:39,wont:3, ignored:26,dur:[6,3,3,56], p1:81,p2:32,p3:0, only1:49,
+    doc:{smb:32,jdcp:25,dcce:16,jcpg:0,mb:8,rm:0,mra:0,other:0},
+    act:{'Valoración':23,'Entrega Prótesis':13,'P. Enfilado':13,'Imp. Preliminar':11,'P. Rodete':11,'Imp. Definitiva':7,'Control':3}},
+  '512':{label:'12 may',total:109,answered:85,vm:8, na:13,busy:1,invalid:2,noring:0,will:53,wont:4, ignored:28,dur:[5,3,13,64],p1:109,p2:44,p3:4, only1:65,
+    doc:{smb:29,jdcp:0,dcce:0,jcpg:23,mb:0,rm:26,mra:31,other:0},
+    act:{'Valoración':25,'P. Rodete':22,'P. Enfilado':21,'Imp. Definitiva':14,'Imp. Preliminar':13,'Entrega Prótesis':11,'Control':3}},
+  '513':{label:'13 may',total:80, answered:62,vm:4, na:13,busy:0,invalid:1,noring:0,will:36,wont:0, ignored:26,dur:[3,2,1,56], p1:80,p2:31,p3:0, only1:49,
+    doc:{smb:29,jdcp:13,dcce:0,jcpg:0,mb:0,rm:24,mra:0,other:14},
+    act:{'Valoración':20,'Imp. Preliminar':17,'Entrega Prótesis':12,'P. Enfilado':10,'P. Rodete':9,'Imp. Definitiva':6,'Control':6}},
+  '515':{label:'15 may',total:79, answered:62,vm:10,na:6, busy:0,invalid:1,noring:0,will:44,wont:2, ignored:16,dur:[5,2,5,50], p1:79,p2:29,p3:1, only1:50,
+    doc:{smb:28,jdcp:26,dcce:16,jcpg:0,mb:9,rm:0,mra:0,other:0},
+    act:{'Entrega Prótesis':18,'Valoración':15,'Imp. Preliminar':15,'P. Enfilado':14,'P. Rodete':10,'Imp. Definitiva':5,'Control':2}},
+  '519':{label:'19 may',total:114,answered:94,vm:9, na:11,busy:0,invalid:0,noring:0,will:60,wont:0, ignored:34,dur:[10,0,12,72],p1:114,p2:58,p3:0, only1:56,
+    doc:{smb:34,jdcp:0,dcce:0,jcpg:17,mb:0,rm:29,mra:20,other:14},
+    act:{'Valoración':34,'Imp. Preliminar':16,'P. Rodete':16,'Imp. Definitiva':14,'P. Enfilado':13,'Entrega Prótesis':12,'Control':9}},
+  '520':{label:'20 may',total:61, answered:51,vm:4, na:6, busy:0,invalid:0,noring:0,will:34,wont:1, ignored:16,dur:[4,2,5,40], p1:61,p2:36,p3:8, only1:25,
+    doc:{smb:13,jdcp:13,dcce:0,jcpg:0,mb:0,rm:0,mra:23,other:12},
+    act:{'P. Rodete':13,'Valoración':12,'Imp. Definitiva':11,'P. Enfilado':9,'Entrega Prótesis':6,'Control':5,'Imp. Preliminar':5}},
+  '522':{label:'22 may',total:76, answered:56,vm:8, na:8, busy:2,invalid:1,noring:1,will:30,wont:2, ignored:24,dur:[4,4,6,42], p1:76,p2:29,p3:1, only1:47,
+    doc:{smb:34,jdcp:0,dcce:12,jcpg:19,mb:11,rm:0,mra:0,other:0},
+    act:{'Valoración':18,'Entrega Prótesis':16,'Imp. Preliminar':15,'P. Rodete':11,'P. Enfilado':11,'Imp. Definitiva':3,'Control':2}},
+  '527':{label:'27 may',total:82, answered:67,vm:6, na:5, busy:0,invalid:0,noring:4,will:39,wont:3, ignored:25,dur:[6,1,3,57], p1:82,p2:28,p3:0, only1:54,
+    doc:{smb:28,jdcp:0,dcce:0,jcpg:0,mb:0,rm:31,mra:0,other:23},
+    act:{'Imp. Preliminar':24,'Valoración':16,'P. Enfilado':13,'Entrega Prótesis':11,'P. Rodete':9,'Imp. Definitiva':5,'Control':4}},
+  '528':{label:'28 may',total:56, answered:45,vm:4, na:6, busy:0,invalid:1,noring:0,will:26,wont:0, ignored:19,dur:[4,0,5,36], p1:56,p2:24,p3:1, only1:32,
+    doc:{smb:0,jdcp:0,dcce:0,jcpg:25,mb:0,rm:31,mra:0,other:0},
+    act:{'Valoración':17,'Imp. Preliminar':17,'P. Rodete':7,'P. Enfilado':6,'Imp. Definitiva':3,'Entrega Prótesis':3,'Control':3}},
+  '602':{label:'2 jun', total:114,answered:87,vm:16,na:10,busy:1,invalid:0,noring:0,will:67,wont:4, ignored:16,dur:[2,3,4,78], p1:114,p2:38,p3:7, only1:76,
+    doc:{smb:14,jdcp:0,dcce:0,jcpg:23,mb:0,rm:32,mra:29,other:16},
+    act:{'Imp. Preliminar':26,'Valoración':25,'P. Enfilado':19,'P. Rodete':16,'Imp. Definitiva':15,'Entrega Prótesis':8,'Control':5}},
+  '603':{label:'3 jun', total:129,answered:101,vm:13,na:14,busy:1,invalid:0,noring:0,will:70,wont:3, ignored:28,dur:[5,3,7,86], p1:129,p2:56,p3:8, only1:73,
+    doc:{smb:27,jdcp:17,dcce:16,jcpg:0,mb:0,rm:27,mra:19,other:23},
+    act:{'Valoración':30,'P. Enfilado':25,'Entrega Prótesis':21,'P. Rodete':18,'Imp. Preliminar':17,'Imp. Definitiva':14,'Control':4}},
+  '604':{label:'4 jun', total:155,answered:130,vm:8, na:14,busy:2,invalid:1,noring:0,will:89,wont:5, ignored:36,dur:[10,5,5,110],p1:155,p2:58,p3:3, only1:97,
+    doc:{smb:41,jdcp:0,dcce:0,jcpg:29,mb:25,rm:28,mra:0,other:32},
+    act:{'Imp. Preliminar':33,'Valoración':33,'Entrega Prótesis':25,'P. Rodete':19,'P. Enfilado':19,'Imp. Definitiva':19,'Control':7}},
+  '605':{label:'5 jun', total:97, answered:76,vm:3, na:18,busy:0,invalid:0,noring:0,will:53,wont:0, ignored:23,dur:[2,1,4,69], p1:97,p2:30,p3:4, only1:67,
+    doc:{smb:32,jdcp:24,dcce:18,jcpg:12,mb:11,rm:0,mra:0,other:0},
+    act:{'Entrega Prótesis':22,'Imp. Preliminar':18,'Valoración':18,'P. Enfilado':17,'P. Rodete':15,'Imp. Definitiva':4,'Control':3}},
+  '610':{label:'10 jun',total:78, answered:68,vm:5, na:4, busy:0,invalid:1,noring:0,will:40,wont:2, ignored:26,dur:[5,4,3,56], p1:78,p2:28,p3:3, only1:50,
+    doc:{smb:0,jdcp:14,dcce:0,jcpg:0,mb:0,rm:26,mra:16,other:22},
+    act:{'P. Rodete':16,'P. Enfilado':16,'Valoración':14,'Imp. Preliminar':14,'Imp. Definitiva':8,'Entrega Prótesis':7,'Control':3}},
+  '611':{label:'11 jun',total:107,answered:85,vm:7, na:12,busy:0,invalid:3,noring:0,will:62,wont:2, ignored:21,dur:[6,1,15,63], p1:107,p2:42,p3:5, only1:65,
+    doc:{smb:14,jdcp:0,dcce:0,jcpg:25,mb:26,rm:30,mra:0,other:12},
+    act:{'Imp. Preliminar':27,'P. Rodete':21,'Valoración':19,'Entrega Prótesis':12,'P. Enfilado':10,'Imp. Definitiva':9,'Control':9}},
+  '617':{label:'17 jun',total:98, answered:79,vm:9, na:10,busy:0,invalid:0,noring:0,will:46,wont:3, ignored:30,dur:[7,3,4,65], p1:98,p2:30,p3:3, only1:68,
+    doc:{smb:30,jdcp:8,dcce:0,jcpg:0,mb:0,rm:22,mra:12,other:26},
+    act:{'P. Rodete':23,'P. Enfilado':17,'Valoración':16,'Entrega Prótesis':16,'Imp. Preliminar':13,'Imp. Definitiva':7,'Control':6}},
 };
-var HORAS = ['8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00'];
-var DIAS  = ['Lunes','Martes','Mierc','Jueves','Viernes','Sabado'];
-var CHS   = {};
 
-// ── HELPERS ────────────────────────────────────────────
-function el(id)        { return document.getElementById(id); }
-function html(id,v)    { var e=el(id); if(e) e.innerHTML=v; }
-function pct(n,d)      { return d>0 ? Math.round(n/d*100) : 0; }
-function npsC(v)       { return v>=50?'#1D9E75':v>=0?'#F78805':'#c0392b'; }
-function npsLbl(v)     { return v>=70?['Excelente','#e8f8f1','#0F6E56']:v>=50?['Muy bueno','#e8f8f1','#0F6E56']:v>=30?['Bueno','#fff3e0','#8a4f00']:v>=0?['Aceptable','#fff3e0','#8a4f00']:['Bajo','#fdecea','#8B0000']; }
+const ALL_DAYS=['504','505','506','508','512','513','515','519','520','522','527','528','602','603','604','605','610','611','617'];
+const MAYO_DAYS=['504','505','506','508','512','513','515','519','520','522','527','528'];
+const JUNIO_DAYS=['602','603','604','605','610','611','617'];
 
-function calcNPS(dist) {
-  var p=dist[9]||0, det=(dist[1]||0)+(dist[2]||0)+(dist[3]||0)+(dist[4]||0)+(dist[5]||0)+(dist[6]||0), pas=(dist[7]||0)+(dist[8]||0), tot=p+det+pas;
-  return {nps:tot>0?Math.round((p-det)/tot*100):0, prom:p, det:det, pas:pas, tot:tot};
+// Doctors: real names + distinct palette (NOT all blues)
+const DOC_KEYS  =['smb','jdcp','dcce','jcpg','mb','rm','mra','other'];
+const DOC_NAMES =['Sandra M. Bolaños','José D. Castro P.','Diana C. Castro E.','Julio C. Páez G.','Marcelo Benjumea','Rafael Mantilla','Melissa Ríos A.','Otros/Visitantes'];
+const DOC_COLORS=['#0c41ab','#e07b00','#1a9e60','#8b1fbc','#c0392b','#0891b2','#d97706','#94a3b8'];
+
+const ACT_ORDER=['Valoración','Entrega Prótesis','Imp. Preliminar','P. Enfilado','P. Rodete','Imp. Definitiva','Control'];
+const ACT_COLORS=['#0c41ab','#1a9e60','#2e63cd','#8b1fbc','#0891b2','#d97706','#94a3b8'];
+
+const fmt=n=>Number(n).toLocaleString('es-CO');
+const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'0.0%';
+const pctN=(a,b)=>b?parseFloat(((a/b)*100).toFixed(1)):0;
+
+function agg(days){
+  const r={total:0,answered:0,vm:0,na:0,busy:0,invalid:0,noring:0,will:0,wont:0,ignored:0,
+    dur:[0,0,0,0],p2:0,p3:0,only1:0,
+    doc:{smb:0,jdcp:0,dcce:0,jcpg:0,mb:0,rm:0,mra:0,other:0},
+    act:{}};
+  days.forEach(d=>{
+    const v=DATA[d];
+    r.total+=v.total;r.answered+=v.answered;r.vm+=v.vm;r.na+=v.na;
+    r.busy+=v.busy;r.invalid+=v.invalid;r.noring+=v.noring||0;
+    r.will+=v.will;r.wont+=v.wont;r.ignored+=v.ignored;
+    v.dur.forEach((x,i)=>r.dur[i]+=x);
+    r.p2+=v.p2;r.p3+=v.p3;r.only1+=v.only1;
+    DOC_KEYS.forEach(k=>{r.doc[k]+=(v.doc[k]||0);});
+    Object.entries(v.act).forEach(([a,c])=>{r.act[a]=(r.act[a]||0)+c;});
+  });
+  return r;
 }
-function calcAvg(dist) {
-  var s=0,c=0;
-  Object.keys(dist).forEach(function(k){ if(parseInt(k)>0){s+=parseInt(k)*dist[k];c+=dist[k];} });
-  return c>0 ? parseFloat((s/c).toFixed(1)) : 0;
+
+// ══ NAV ══════════════════════════════════════════════════════════
+function st(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['resumen','tendencia','doctores','cobertura','cumplimiento'][i]===id));
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='p-'+id));
+  if(id==='tendencia') buildTendencia();
+  else if(id==='doctores') buildDoctores();
+  else if(id==='cobertura') buildCobertura();
+  else if(id==='cumplimiento') buildCumplimiento();
 }
 
-// ── DATOS POR MES ──────────────────────────────────────
-function getMes() { return el('selMes').value; }
-
-function getData() {
-  var m = getMes();
-  if(m !== 'all') return DB[m];
-  var a=DB.Mayo, b=DB.Junio;
-  function add(k){ return a[k]+b[k]; }
-  function addD(o1,o2){ var r={}; [1,2,3,4,5,6,7,8,9].forEach(function(k){r[k]=(o1[k]||0)+(o2[k]||0);}); return r; }
-  function mergeObj(o1,o2,fn){
-    var r={}, ks=[];
-    Object.keys(o1).forEach(function(k){if(ks.indexOf(k)<0)ks.push(k);});
-    Object.keys(o2).forEach(function(k){if(ks.indexOf(k)<0)ks.push(k);});
-    ks.forEach(function(k){ var v=fn(o1[k],o2[k]); if(v) r[k]=v; });
-    return r;
+// ══ FILTER ═══════════════════════════════════════════════════════
+function onPeriodo(){
+  const p=document.getElementById('periodo-sel').value;
+  document.getElementById('fecha-wrap').style.display=p==='fecha'?'flex':'none';
+  document.getElementById('rango-wrap').style.display=p==='rango'?'flex':'none';
+  applyFilter();
+}
+function getRange(){
+  const p=document.getElementById('periodo-sel').value;
+  if(p==='mayo') return MAYO_DAYS;
+  if(p==='junio') return JUNIO_DAYS;
+  if(p==='todos') return ALL_DAYS;
+  if(p==='fecha') return [document.getElementById('fecha-sel').value];
+  if(p==='rango'){
+    const d1=document.getElementById('rango-desde').value;
+    const d2=document.getElementById('rango-hasta').value;
+    const i1=ALL_DAYS.indexOf(d1),i2=ALL_DAYS.indexOf(d2);
+    return ALL_DAYS.slice(Math.min(i1,i2),Math.max(i1,i2)+1);
   }
-  var svc = mergeObj(a.svc,b.svc,function(x,y){
-    x=x||{n:0,nps:0,p1:0,p2:0}; y=y||{n:0,nps:0,p1:0,p2:0}; var n=x.n+y.n;
-    if(!n) return null;
-    return {n:n, nps:Math.round((x.nps*x.n+y.nps*y.n)/n), p1:parseFloat(((x.p1*x.n+y.p1*y.n)/n).toFixed(1)), p2:parseFloat(((x.p2*x.n+y.p2*y.n)/n).toFixed(1))};
-  });
-  var aseg = mergeObj(a.aseg,b.aseg,function(x,y){
-    x=x||{n:0,nps:0}; y=y||{n:0,nps:0}; var n=x.n+y.n;
-    if(!n) return null;
-    return {n:n, nps:Math.round((x.nps*x.n+y.nps*y.n)/n)};
-  });
-  return {
-    total:add('total'), answer:add('answer'), noAnswer:add('noAnswer'), voicemail:add('voicemail'),
-    busy:add('busy'), invalid:add('invalid'), durGt45:add('durGt45'), dur1_15:add('dur1_15'),
-    dur31_45:add('dur31_45'), dur16_30:add('dur16_30'), encP1:add('encP1'), encP2:add('encP2'),
-    p1:addD(a.p1,b.p1), p2:addD(a.p2,b.p2), svc:svc, aseg:aseg,
-    hrC:HORAS.map(function(_,i){return a.hrC[i]+b.hrC[i];}),
-    hrE:HORAS.map(function(_,i){return a.hrE[i]+b.hrE[i];}),
-    dC:DIAS.map(function(_,i){return a.dC[i]+b.dC[i];}),
-    dE:DIAS.map(function(_,i){return a.dE[i]+b.dE[i];})
-  };
+  return ['605'];
 }
 
-// ── CHARTS ─────────────────────────────────────────────
-function mkC(id, type, data, opts, plugins) {
-  if(CHS[id]) { CHS[id].destroy(); delete CHS[id]; }
-  var c = el(id); if(!c) return;
-  var cfg = {type:type, data:data, options:opts||{}};
-  if(plugins && plugins.length) cfg.plugins = plugins;
-  CHS[id] = new Chart(c, cfg);
-}
+let cEncuesta=null,cTendBar=null,cCrLine=null,cCancelBar=null,cDocBar=null,cDocPie=null;
 
-var dlPlugin = {
-  id: 'datalabels',
-  afterDatasetsDraw: function(chart) {
-    var ctx = chart.ctx;
-    chart.data.datasets.forEach(function(ds, di) {
-      var meta = chart.getDatasetMeta(di);
-      if(meta.hidden) return;
-      meta.data.forEach(function(bar, i) {
-        var v = ds.data[i];
-        if(!v || v===0) return;
-        var isH = (chart.config.options.indexAxis === 'y');
-        ctx.save();
-        ctx.font = 'bold 10px sans-serif';
-        ctx.textBaseline = 'middle';
-        if(isH) {
-          if(bar.width > 28) { ctx.fillStyle='#fff'; ctx.textAlign='left'; ctx.fillText(v, bar.x-bar.width+6, bar.y); }
-          else               { ctx.fillStyle='#7A7A7A'; ctx.textAlign='left'; ctx.fillText(v, bar.x+4, bar.y); }
-        } else {
-          if(bar.height > 16) { ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.fillText(v, bar.x, bar.y+bar.height/2); }
-          else                { ctx.fillStyle='#7A7A7A'; ctx.textAlign='center'; ctx.fillText(v, bar.x, bar.y-5); }
-        }
-        ctx.restore();
-      });
+// ══ RESUMEN ══════════════════════════════════════════════════════
+function applyFilter(){
+  const days=getRange();
+  const v=agg(days);
+  const surveyed=v.will+v.wont;
+  const lbl=days.length===1?DATA[days[0]].label+' 2026':DATA[days[0]].label+' – '+DATA[days[days.length-1]].label+' 2026';
+
+  document.getElementById('hdr-meta').innerHTML=lbl+' · <strong>'+fmt(v.total)+'</strong> registros';
+  document.getElementById('pill-citas').textContent=fmt(v.total)+' citas';
+  document.getElementById('lbl-periodo').textContent='INDICADORES · '+lbl.toUpperCase();
+
+  document.getElementById('k-total').textContent=fmt(v.total);
+  document.getElementById('k-total-s').textContent=days.length>1?days.length+' jornadas · ~'+Math.round(v.total/days.length)+'/día':'1 jornada';
+  document.getElementById('k-contact').textContent=fmt(v.answered);
+  document.getElementById('k-cr').textContent=pct(v.answered,v.total);
+  document.getElementById('k-will').textContent=fmt(v.will);
+  document.getElementById('k-will-p').textContent=pct(v.will,surveyed);
+  document.getElementById('k-wont').textContent=fmt(v.wont);
+  document.getElementById('k-wont-p').textContent=pct(v.wont,surveyed);
+
+  // Cancelaciones por actividad — Método Largest Remainder (Hare-Niemeyer)
+  // Garantiza: todos los valores ≥ 0, suma exacta = wont, sin negativos
+  const actCancels={};
+  days.forEach(d=>{
+    const dv=DATA[d];
+    if(dv.wont<=0) return;
+    const acts=dv.act;
+    const actTotal=Object.values(acts).reduce((a,b)=>a+b,0);
+    if(actTotal===0) return;
+    // 1. Calcular cuotas exactas
+    const quotas={};
+    Object.keys(acts).forEach(a=>{ quotas[a]=dv.wont*(acts[a]/actTotal); });
+    // 2. Tomar parte entera (floor) — siempre ≥ 0
+    const floors={};
+    Object.keys(quotas).forEach(a=>{ floors[a]=Math.floor(quotas[a]); });
+    // 3. Distribuir el sobrante a quienes tienen mayor parte decimal
+    const totalFloor=Object.values(floors).reduce((a,b)=>a+b,0);
+    const extra=dv.wont-totalFloor; // extra siempre >= 0
+    const sortedByRem=Object.keys(quotas).sort((a,b)=>(quotas[b]-floors[b])-(quotas[a]-floors[a]));
+    sortedByRem.slice(0,extra).forEach(a=>{ floors[a]+=1; });
+    // 4. Acumular
+    Object.keys(floors).forEach(a=>{
+      actCancels[a]=(actCancels[a]||0)+floors[a];
     });
+  });
+  document.getElementById('cancel-badge').textContent=v.wont+(v.wont===1?' cupo libre':' cupos libres');
+  document.getElementById('cancel-desc').textContent=v.wont+(v.wont===1?' paciente canceló su cita':' pacientes cancelaron su cita')+' durante el período seleccionado.';
+
+  let cancelHTML='';
+  ACT_ORDER.forEach(a=>{
+    const c=Math.max(0, actCancels[a]||0); // defensa extra: nunca mostrar negativo
+    cancelHTML+=`<div class="cp ${c>0?'hi':'zero'}"><div class="cp-n">${c}</div><div class="cp-l">${a}</div></div>`;
+  });
+  cancelHTML+=`<div class="cp tot"><div class="cp-n">${v.wont}</div><div class="cp-l">Total recuperable</div></div>`;
+  document.getElementById('cancel-grid').innerHTML=cancelHTML;
+
+  document.getElementById('cancel-alert').innerHTML=v.wont>0
+    ?`<div class="aa">⚠ Se liberaron <strong>${v.wont} cupos</strong>. Tasa de cancelación: <strong>${pct(v.wont,surveyed)}</strong> sobre encuestados. Cupos disponibles para reasignación.</div>`
+    :`<div class="at">✅ <strong>0 cancelaciones</strong> en el período seleccionado. El 100% de los encuestados confirmó asistencia.</div>`;
+
+  // Donut encuesta
+  const nc=v.total-v.answered;
+  if(cEncuesta)cEncuesta.destroy();
+  cEncuesta=new Chart(document.getElementById('dc-encuesta'),{
+    type:'doughnut',
+    data:{labels:['Asistirá','Cancela','Ignoró encuesta','No contactado'],
+      datasets:[{data:[v.will,v.wont,v.ignored,nc],
+        backgroundColor:['#1a9e60','#c0392b','#94a3b8','#e2e8f0'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:true,cutout:'68%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+fmt(c.raw)}},datalabels:{display:false}}}
+  });
+  document.getElementById('dc-legend').innerHTML=[
+    ['#1a9e60','Asistirá',v.will],
+    ['#c0392b','Cancela',v.wont],
+    ['#94a3b8','Ignoró encuesta',v.ignored],
+    ['#e2e8f0','No contactado',nc],
+  ].map(([c,t,val])=>`<div class="leg"><div class="leg-dot" style="background:${c}"></div>${t} — <strong>${fmt(val)}</strong> (${pct(val,v.total)})</div>`).join('');
+
+  // Hbars llamada
+  document.getElementById('hbar-llamada').innerHTML=[
+    {l:'Contestó (ANSWER)',val:v.answered,col:'#0c41ab'},
+    {l:'No contestó',val:v.na,col:'#d4820a'},
+    {l:'Buzón de voz',val:v.vm,col:'#6a3db8'},
+    {l:'Línea ocupada',val:v.busy,col:'#0891b2'},
+    {l:'Número inválido',val:v.invalid,col:'#c0392b'},
+    {l:'Sin tono',val:v.noring,col:'#64748b'},
+  ].map(h=>`<div class="hbar"><div class="hbar-lbl">${h.l}</div><div class="hbar-track"><div class="hbar-fill" style="width:${pctN(h.val,v.total)}%;background:${h.col}"></div></div><div class="hbar-val">${h.val} · ${pct(h.val,v.total)}</div></div>`).join('');
+
+  // Duración
+  const durMax=Math.max(...v.dur)||1;
+  const dCols=['#c0392b','#d4820a','#2e63cd','#1a9e60'];
+  const dLbls=['1–15 seg','16–30 seg','31–45 seg','>45 seg'];
+  document.getElementById('dur-grid').innerHTML=v.dur.map((d,i)=>`
+    <div><div class="dv" style="color:${dCols[i]}">${d}</div>
+    <div class="dbw"><div class="db" style="height:${Math.max(4,(d/durMax)*100)}%;background:${dCols[i]}"></div></div>
+    <div class="dl">${dLbls[i]}</div><div class="dp" style="color:${dCols[i]}">${pct(d,v.answered)}</div></div>`).join('');
+  const dur30plus=v.dur[2]+v.dur[3];
+  const pct30=v.answered?((dur30plus/v.answered)*100).toFixed(1):0;
+  const pct45=v.answered?((v.dur[3]/v.answered)*100).toFixed(1):0;
+  document.getElementById('dur-alert').innerHTML=`<div class="at" style="margin-top:8px;"><strong>${dur30plus} llamadas (${pct30}%)</strong> superaron los 30 segundos de conversación efectiva — de estas, el <strong>${pct45}%</strong> superó los 45 seg, indicando interacción de alta calidad.</div>`;
+
+  // Métricas
+  document.getElementById('metricas-sub').textContent=lbl;
+  document.getElementById('metricas-grid').innerHTML=`
+    <div class="stat-box"><div class="stat-n" style="color:var(--primary)">${pct(v.answered,v.total)}</div><div class="stat-l">Contact Ratio</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--green)">${pct(v.will,surveyed)}</div><div class="stat-l">Tasa Confirmación</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:#6a3db8">${pct(surveyed,v.answered)}</div><div class="stat-l">Survey Ratio</div></div>`;
+
+  const act=document.querySelector('.page.active');
+  if(act&&act.id==='p-tendencia') buildTendencia();
+  else if(act&&act.id==='p-doctores') buildDoctores();
+  else if(act&&act.id==='p-cobertura') buildCobertura();
+}
+
+// ══ TENDENCIA ════════════════════════════════════════════════════
+function buildTendencia(){
+  const days=getRange();
+  const gc='rgba(0,0,0,0.04)',tc='#666';
+  const lbls=days.map(d=>DATA[d].label);
+
+  if(cTendBar)cTendBar.destroy();
+  cTendBar=new Chart(document.getElementById('chart-tend-bar'),{
+    type:'bar',
+    data:{labels:lbls,datasets:[
+      {label:'Total',data:days.map(d=>DATA[d].total),backgroundColor:'rgba(12,65,171,0.18)',borderColor:'#0c41ab',borderWidth:2,borderRadius:4},
+      {label:'Contactadas',data:days.map(d=>DATA[d].answered),backgroundColor:'#1a9e60',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24}},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}},
+        datalabels:{anchor:'end',align:'top',font:{weight:'700',size:10},color:'#333',formatter:v=>v>0?v:''}},
+      scales:{x:{ticks:{color:tc,font:{size:10}},grid:{color:gc}},y:{beginAtZero:true,ticks:{color:tc},grid:{color:gc}}}}
+  });
+
+  if(cCrLine)cCrLine.destroy();
+  cCrLine=new Chart(document.getElementById('chart-cr-line'),{
+    type:'line',
+    data:{labels:lbls,datasets:[{data:days.map(d=>pctN(DATA[d].answered,DATA[d].total)),
+      borderColor:'#0c41ab',backgroundColor:'rgba(12,65,171,0.08)',tension:.35,pointRadius:5,pointBackgroundColor:'#0c41ab',fill:true}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        datalabels:{anchor:'top',align:'top',color:'#0c41ab',font:{weight:'700',size:9},formatter:v=>v.toFixed(1)+'%'}},
+      scales:{x:{ticks:{color:tc,font:{size:9}},grid:{color:gc}},y:{min:50,max:100,ticks:{color:tc,callback:v=>v+'%'},grid:{color:gc}}}}
+  });
+
+  if(cCancelBar)cCancelBar.destroy();
+  cCancelBar=new Chart(document.getElementById('chart-cancel-bar'),{
+    type:'bar',
+    data:{labels:lbls,datasets:[{data:days.map(d=>DATA[d].wont),backgroundColor:'#c0392b',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24}},
+      plugins:{legend:{display:false},
+        datalabels:{anchor:'end',align:'top',color:'#c0392b',font:{weight:'700',size:11},formatter:v=>v>0?v:''}},
+      scales:{x:{ticks:{color:tc,font:{size:9}},grid:{color:gc}},y:{beginAtZero:true,ticks:{color:tc,stepSize:1},grid:{color:gc}}}}
+  });
+
+  document.getElementById('tbl-tend').innerHTML=days.map(d=>{
+    const v=DATA[d]; const s=v.will+v.wont;
+    const cr=pctN(v.answered,v.total);
+    const dur30=(v.dur[2]+v.dur[3]);
+    return `<tr>
+      <td><strong>${v.label} 2026</strong></td>
+      <td>${v.total}</td><td>${v.answered}</td>
+      <td><span class="bdg ${cr>=80?'b-g':cr>=70?'b-y':'b-r'}">${cr.toFixed(1)}%</span></td>
+      <td>${v.will}</td>
+      <td>${v.wont>0?`<span class="bdg b-r">${v.wont}</span>`:`<span class="bdg b-g">0</span>`}</td>
+      <td>${pct(s,v.answered)}</td>
+      <td><strong>${dur30}</strong> · ${pct(dur30,v.answered)}</td>
+    </tr>`;
+  }).join('')+`<tr class="tot">
+    <td><strong>TOTAL</strong></td>
+    <td><strong>${fmt(days.reduce((a,d)=>a+DATA[d].total,0))}</strong></td>
+    <td><strong>${fmt(days.reduce((a,d)=>a+DATA[d].answered,0))}</strong></td>
+    <td><strong>${pct(days.reduce((a,d)=>a+DATA[d].answered,0),days.reduce((a,d)=>a+DATA[d].total,0))}</strong></td>
+    <td><strong>${days.reduce((a,d)=>a+DATA[d].will,0)}</strong></td>
+    <td><strong>${days.reduce((a,d)=>a+DATA[d].wont,0)}</strong></td>
+    <td>—</td><td>—</td>
+  </tr>`;
+}
+
+// ══ DOCTORES ═════════════════════════════════════════════════════
+function buildDoctores(){
+  const days=getRange();
+  const v=agg(days);
+  const lbl=days.length===1?DATA[days[0]].label+' 2026':DATA[days[0]].label+' – '+DATA[days[days.length-1]].label+' 2026';
+  const gc='rgba(0,0,0,0.04)',tc='#666';
+
+  // Only show doctors present in selection
+  const activeKeys=DOC_KEYS.filter(k=>v.doc[k]>0);
+  const activeNames=activeKeys.map(k=>DOC_NAMES[DOC_KEYS.indexOf(k)]);
+  const activeColors=activeKeys.map(k=>DOC_COLORS[DOC_KEYS.indexOf(k)]);
+  const activeVals=activeKeys.map(k=>v.doc[k]);
+  const docTotal=activeVals.reduce((a,b)=>a+b,0);
+
+  document.getElementById('doc-sub').textContent=fmt(v.total)+' citas · '+lbl;
+  document.getElementById('lbl-doc').textContent='POR DOCTOR · '+lbl.toUpperCase();
+
+  if(cDocBar)cDocBar.destroy();
+  cDocBar=new Chart(document.getElementById('chart-doc-bar'),{
+    type:'bar',
+    data:{labels:activeNames,datasets:[{label:'Citas',data:activeVals,backgroundColor:activeColors,borderRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:26}},
+      plugins:{legend:{display:false},
+        datalabels:{anchor:'end',align:'top',color:'#1a1a2e',font:{weight:'800',size:12},formatter:v=>v>0?fmt(v):''}},
+      scales:{x:{ticks:{color:tc,font:{size:11}},grid:{color:gc}},y:{beginAtZero:true,ticks:{color:tc},grid:{color:gc}}}}
+  });
+
+  if(cDocPie)cDocPie.destroy();
+  cDocPie=new Chart(document.getElementById('dc-doc'),{
+    type:'doughnut',
+    data:{labels:activeNames,datasets:[{data:activeVals,backgroundColor:activeColors,borderWidth:3,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:true,cutout:'55%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+fmt(c.raw)+' citas'}},datalabels:{display:false}}}
+  });
+
+  document.getElementById('doc-legend').innerHTML=activeNames.map((n,i)=>
+    `<div class="leg"><div class="leg-dot" style="background:${activeColors[i]}"></div>${n} — <strong>${fmt(activeVals[i])}</strong> (${pct(activeVals[i],docTotal)})</div>`
+  ).join('');
+
+  document.getElementById('tbl-doc').innerHTML=activeNames.map((n,i)=>
+    `<tr><td><strong style="color:${activeColors[i]}">${n}</strong></td><td>${fmt(activeVals[i])}</td><td><span class="bdg b-b">${pct(activeVals[i],docTotal)}</span></td></tr>`
+  ).join('')+`<tr class="tot"><td><strong>TOTAL</strong></td><td><strong>${fmt(docTotal)}</strong></td><td><strong>100%</strong></td></tr>`;
+
+  // Actividades — datos reales del período
+  const acts=v.act;
+  const actsSorted=Object.entries(acts).sort((a,b)=>b[1]-a[1]);
+  const actsTotal=actsSorted.reduce((a,[,c])=>a+c,0);
+  const actMax=actsSorted[0]?actsSorted[0][1]:1;
+  document.getElementById('act-sub').textContent=fmt(actsTotal)+' citas · '+lbl;
+  document.getElementById('act-bars').innerHTML=actsSorted.map(([a,c],i)=>{
+    const col=ACT_COLORS[ACT_ORDER.indexOf(a)]||'#94a3b8';
+    return `<div class="br">
+      <div class="bl">${a}</div>
+      <div class="bt"><div class="bf" style="width:${pctN(c,actMax*1.05)}%;background:${col}"></div></div>
+      <div class="bv"><strong>${fmt(c)}</strong> · ${pct(c,actsTotal)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══ COBERTURA ════════════════════════════════════════════════════
+function buildCobertura(){
+  const days=getRange();
+  const v=agg(days);
+  const lbl=days.length===1?DATA[days[0]].label+' 2026':DATA[days[0]].label+' – '+DATA[days[days.length-1]].label+' 2026';
+  document.getElementById('lbl-cob').textContent='FUENTES Y COBERTURA TELEFÓNICA · '+lbl.toUpperCase();
+
+  const sinAlt=v.only1;
+  const conAlt=v.p2;
+  const crActual=pct(v.answered,v.total);
+
+  // KPI 1: con teléfono principal (siempre = total)
+  document.getElementById('cob-p0').textContent=fmt(v.total);
+
+  // KPI 2: sin número alterno (el más crítico)
+  document.getElementById('cob-p1').textContent=fmt(sinAlt);
+  document.getElementById('cob-p1-pct').textContent=pct(sinAlt,v.total)+' del total · sin reintento posible';
+
+  // KPI 3: con 3er teléfono
+  document.getElementById('cob-p3').textContent=fmt(v.p3);
+  document.getElementById('cob-p3-pct').textContent=pct(v.p3,v.total)+' del total tienen un 3er teléfono';
+  document.getElementById('cob-p3-note').textContent=
+    v.p3>0
+      ? `${pct(v.p3,v.total)} del total tienen un tercer teléfono para un reintento posible.`
+      : 'Ningún paciente tiene un 3er teléfono registrado en este período.';
+
+  // Alerta principal — texto dinámico exacto
+  document.getElementById('cob-alert-main').innerHTML=`<div class="ar" style="margin-top:0;">
+    🔴 <strong>${fmt(sinAlt)} pacientes (${pct(sinAlt,v.total)}) NO TIENEN un segundo teléfono.</strong>
+    Si en el teléfono principal no contestan la llamada, no hay forma de otra alternativa de contacto.
+    Registrar un número alterno en su ficha permitiría una segunda oportunidad de confirmación y mejoraría el contact ratio.
+  </div>`;
+
+  // Barras
+  document.getElementById('hbar-cobertura').innerHTML=[
+    {l:'Sin número alterno', val:sinAlt, col:'#94a3b8'},
+    {l:'Con 2do teléfono',   val:v.p2,   col:'#d4820a'},
+    {l:'Con 3er teléfono',   val:v.p3,   col:'#1a9e60'},
+  ].map(h=>`<div class="hbar">
+    <div class="hbar-lbl">${h.l}</div>
+    <div class="hbar-track"><div class="hbar-fill" style="width:${pctN(h.val,v.total)}%;background:${h.col}"></div></div>
+    <div class="hbar-val">${fmt(h.val)} · ${pct(h.val,v.total)}</div>
+  </div>`).join('');
+
+  // Tip dinámico — texto exacto solicitado
+  document.getElementById('cob-alert-tip').innerHTML=`<div class="ai" style="margin-top:10px;">
+    💡 Si los <strong>${fmt(sinAlt)} pacientes sin teléfono alterno</strong> registraran un 2do número,
+    el contact ratio potencial subiría de <strong>${crActual}</strong> actual hacia <strong>&gt;90%</strong>,
+    asumiendo una tasa de respuesta similar en el reintento.
+  </div>`;
+
+  // Tabla por jornada
+  document.getElementById('tbl-cob').innerHTML=days.map(d=>{
+    const dv=DATA[d];
+    const pctA=pctN(dv.p2,dv.total);
+    return `<tr>
+      <td><strong>${dv.label} 2026</strong></td>
+      <td>${dv.total}</td>
+      <td><strong style="color:#c0392b">${dv.only1}</strong> <span class="bdg b-r">${pct(dv.only1,dv.total)}</span></td>
+      <td>${dv.p2} <span class="bdg b-y">${pct(dv.p2,dv.total)}</span></td>
+      <td>${dv.p3>0?dv.p3+' <span class="bdg b-g">'+pct(dv.p3,dv.total)+'</span>':'—'}</td>
+      <td><span class="bdg ${pctA>=40?'b-g':'b-y'}">${pct(dv.p2,dv.total)}</span></td>
+    </tr>`;
+  }).join('')+`<tr class="tot">
+    <td><strong>TOTAL</strong></td>
+    <td><strong>${fmt(days.reduce((a,d)=>a+DATA[d].total,0))}</strong></td>
+    <td><strong style="color:#c0392b">${fmt(v.only1)}</strong> (${pct(v.only1,v.total)})</td>
+    <td><strong>${fmt(v.p2)}</strong> (${pct(v.p2,v.total)})</td>
+    <td><strong>${fmt(v.p3)}</strong> (${pct(v.p3,v.total)})</td>
+    <td><strong>${pct(v.p2,v.total)}</strong></td>
+  </tr>`;
+}
+
+
+// ══ CUMPLIMIENTO ═════════════════════════════════════════════════
+// Datos: lun-sáb, sin festivos Colombia, desde 4 may hasta hoy 9 jun 2026
+// Mayo: 23 días hábiles  |  Junio (hasta hoy): 6 días hábiles  |  Total: 29
+const MONTHS_CUM = {
+  mayo: {
+    label:'Mayo 2026', habil:23, sent:12, missing:11,
+    color:'#0c41ab', colorBg:'#dbeafe',
+    missing_days:['Jue 7','Sáb 9','Lun 11','Jue 14','Sáb 16','Jue 21','Sáb 23','Lun 25','Mar 26','Vie 29','Sáb 30']
+  },
+  junio: {
+    label:'Junio 2026 (al 17 jun)', habil:12, sent:7, missing:5,
+    color:'#1a5c3a', colorBg:'#d1fae5',
+    missing_days:['Lun 1','Sáb 6','Mar 9','Vie 12','Sáb 13','Mar 16']
+  },
+  total: {
+    label:'Acumulado', habil:35, sent:19, missing:16,
+    color:'#7a4800', colorBg:'#fef3c7',
+    missing_days:[]
   }
 };
 
-function centerPlugin(tot, lbl) {
-  return {
-    id: 'center_'+tot,
-    beforeDraw: function(chart) {
-      var ctx=chart.ctx, ca=chart.chartArea;
-      if(!ca) return;
-      var cx=(ca.left+ca.right)/2, cy=(ca.top+ca.bottom)/2;
-      ctx.save();
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.font='bold 15px sans-serif'; ctx.fillStyle='#F78805';
-      ctx.fillText(tot.toLocaleString(), cx, cy-8);
-      ctx.font='11px sans-serif'; ctx.fillStyle='#aaa';
-      ctx.fillText(lbl, cx, cy+10);
-      ctx.restore();
-    }
-  };
-}
+const WEEKS = [
+  {label:'Sem 4–9 May',   sent:4,total:6, days:[
+    {d:'Lun 4',s:'ok'},{d:'Mar 5',s:'ok'},{d:'Mié 6',s:'ok'},
+    {d:'Jue 7',s:'missing'},{d:'Vie 8',s:'ok'},{d:'Sáb 9',s:'missing'}]},
+  {label:'Sem 11–16 May', sent:3,total:6, days:[
+    {d:'Lun 11',s:'missing'},{d:'Mar 12',s:'ok'},{d:'Mié 13',s:'ok'},
+    {d:'Jue 14',s:'missing'},{d:'Vie 15',s:'ok'},{d:'Sáb 16',s:'missing'}]},
+  {label:'Sem 19–23 May', sent:3,total:5, days:[
+    {d:'Mar 19',s:'ok'},{d:'Mié 20',s:'ok'},
+    {d:'Jue 21',s:'missing'},{d:'Vie 22',s:'ok'},{d:'Sáb 23',s:'missing'}]},
+  {label:'Sem 25–30 May', sent:2,total:6, days:[
+    {d:'Lun 25',s:'missing'},{d:'Mar 26',s:'missing'},{d:'Mié 27',s:'ok'},
+    {d:'Jue 28',s:'ok'},{d:'Vie 29',s:'missing'},{d:'Sáb 30',s:'missing'}]},
+  {label:'Sem 1–6 Jun',   sent:4,total:6, days:[
+    {d:'Lun 1',s:'missing'},{d:'Mar 2',s:'ok'},{d:'Mié 3',s:'ok'},
+    {d:'Jue 4',s:'ok'},{d:'Vie 5',s:'ok'},{d:'Sáb 6',s:'missing'}]},
+  {label:'Sem 9–13 Jun',  sent:2,total:5, days:[
+    {d:'Mar 9',s:'missing'},{d:'Mié 10',s:'ok'},{d:'Jue 11',s:'ok'},
+    {d:'Vie 12',s:'missing'},{d:'Sáb 13',s:'missing'}]},
+  {label:'Sem 16–17 Jun', sent:1,total:2, days:[
+    {d:'Mar 16',s:'missing'},{d:'Mié 17',s:'ok'}]},
+];
 
-function donut(id, lgId, lbls, data, colors, clbl) {
-  var lg=el(lgId), tot=data.reduce(function(a,b){return a+b;},0);
-  if(lg) lg.innerHTML = lbls.map(function(l,i){ return '<span><span class="lgd" style="background:'+colors[i]+'"></span>'+l+': '+data[i]+' ('+pct(data[i],tot)+'%)</span>'; }).join('');
-  mkC(id,'doughnut',
-    {labels:lbls, datasets:[{data:data, backgroundColor:colors, borderWidth:0}]},
-    {responsive:true, maintainAspectRatio:false, cutout:'60%',
-     plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(c){ return ' '+c.label+': '+c.formattedValue+' ('+Math.round(c.parsed/c.dataset.data.reduce(function(a,b){return a+b;},0)*100)+'%)'; }}}}},
-    [centerPlugin(tot, clbl||'total')]
-  );
-}
+const MISSING_DAYS = [
+  {d:'Jue 7 May', dow:'Jueves',  mes:'Mayo', wk:'4–9 May'},
+  {d:'Sáb 9 May', dow:'Sábado',  mes:'Mayo', wk:'4–9 May'},
+  {d:'Lun 11 May',dow:'Lunes',   mes:'Mayo', wk:'11–16 May'},
+  {d:'Jue 14 May',dow:'Jueves',  mes:'Mayo', wk:'11–16 May'},
+  {d:'Sáb 16 May',dow:'Sábado',  mes:'Mayo', wk:'11–16 May'},
+  {d:'Jue 21 May',dow:'Jueves',  mes:'Mayo', wk:'19–23 May'},
+  {d:'Sáb 23 May',dow:'Sábado',  mes:'Mayo', wk:'19–23 May'},
+  {d:'Lun 25 May',dow:'Lunes',   mes:'Mayo', wk:'25–30 May'},
+  {d:'Mar 26 May',dow:'Martes',  mes:'Mayo', wk:'25–30 May'},
+  {d:'Vie 29 May',dow:'Viernes', mes:'Mayo', wk:'25–30 May'},
+  {d:'Sáb 30 May',dow:'Sábado',  mes:'Mayo', wk:'25–30 May'},
+  {d:'Lun 1 Jun', dow:'Lunes',   mes:'Junio',wk:'1–6 Jun'},
+  {d:'Sáb 6 Jun', dow:'Sábado',  mes:'Junio',wk:'1–6 Jun'},
+  {d:'Mar 9 Jun', dow:'Martes',  mes:'Junio',wk:'9–13 Jun'},
+  {d:'Vie 12 Jun',dow:'Viernes', mes:'Junio',wk:'9–13 Jun'},
+  {d:'Sáb 13 Jun',dow:'Sábado',  mes:'Junio',wk:'9–13 Jun'},
+  {d:'Mar 16 Jun',dow:'Martes',  mes:'Junio',wk:'16–17 Jun'},
+];
 
-function barV(id, lbls, datasets) {
-  mkC(id,'bar',
-    {labels:lbls, datasets:datasets.map(function(d){ return {data:d.data, backgroundColor:d.color, label:d.label||'', borderRadius:3, borderWidth:0}; })},
-    {responsive:true, maintainAspectRatio:false,
-     plugins:{legend:{display:false}, tooltip:{mode:'index',intersect:false}},
-     scales:{x:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{font:{size:11},color:'#7A7A7A',autoSkip:false}},
-             y:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{font:{size:11},color:'#7A7A7A'}}}},
-    [dlPlugin]
-  );
-}
+// Lun=0 Mar=1 Mié=2 Jue=3 Vie=4 Sáb=5
+const DOW_STATS = [
+  {n:'Lunes',      total:5, sent:2},
+  {n:'Martes',     total:8, sent:5},
+  {n:'Miércoles',  total:8, sent:8},
+  {n:'Jueves',     total:6, sent:3},
+  {n:'Viernes',    total:6, sent:3},
+  {n:'Sábado',     total:7, sent:0},
+];
 
-function barH(id, wrapId, lbls, data, color, hPx) {
-  var w=el(wrapId); if(w) w.style.height=hPx+'px';
-  mkC(id,'bar',
-    {labels:lbls, datasets:[{data:data, backgroundColor:color, label:'', borderRadius:3, borderWidth:0}]},
-    {indexAxis:'y', responsive:true, maintainAspectRatio:false,
-     plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x;}}}},
-     scales:{x:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{font:{size:11},color:'#7A7A7A'}},
-             y:{grid:{display:false}, ticks:{font:{size:11},color:'#7A7A7A'}}}},
-    [dlPlugin]
-  );
-}
+let cCumBar=null, cRingMayo=null, cRingJunio=null, cRingTotal=null;
+let cumBuilt=false;
 
-// ── NAVEGACIÓN ─────────────────────────────────────────
-function activePage() {
-  var p = document.querySelector('.pg.on');
-  return p ? p.id : 'p-exp';
-}
-
-function goPage(id, btn) {
-  document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('on'); });
-  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('on'); });
-  el(id).classList.add('on');
-  btn.classList.add('on');
-  setTimeout(render, 60);
-}
-
-// ── RENDER ─────────────────────────────────────────────
-function render() {
-  var pg=activePage(), d=getData(), m=getMes();
-  var nP2=calcNPS(d.p2), nP1=calcNPS(d.p1);
-  var avgP1=calcAvg(d.p1), avgP2=calcAvg(d.p2);
-  var L2=npsLbl(nP2.nps), L1=npsLbl(nP1.nps);
-  var sign=function(v){return v>=0?'+':''};
-
-  // ── EXPERIENCIA ──
-  if(pg==='p-exp') {
-    html('mc-exp',
-      mc('NPS recomendaci&oacute;n P2', sign(nP2.nps)+nP2.nps, L2[0], npsC(nP2.nps))+
-      mc('NPS satisfacci&oacute;n P1', sign(nP1.nps)+nP1.nps, L1[0], npsC(nP1.nps))+
-      mc('Satisfacci&oacute;n prom. P1', avgP1+'/9', '','#F78805')+
-      mc('Recomendaci&oacute;n prom. P2', avgP2+'/9', '','#F78805')+
-      mc('Promotores (cal. 9)', nP2.prom, pct(nP2.prom,nP2.tot)+'% del total','#1D9E75')+
-      mc('Detractores (cal. 1-6)', nP2.det, pct(nP2.det,nP2.tot)+'% seguimiento','#c0392b')
-    );
-    var lgTxt='<span><span class="lgd" style="background:#c0392b"></span>Detractor (1-6)</span><span><span class="lgd" style="background:#6EC1E4"></span>Pasivo (7-8)</span><span><span class="lgd" style="background:#1D9E75"></span>Promotor (9)</span>';
-    html('lg-p1',lgTxt); html('lg-p2',lgTxt);
-    var sC=['1','2','3','4','5','6','7','8','9'];
-    var sCol=sC.map(function(_,i){return i<=5?'#c0392b':i<=7?'#6EC1E4':'#1D9E75';});
-    barV('ch-p1',sC,[{data:sC.map(function(_,i){return d.p1[i+1]||0;}),color:sCol,label:'P1'}]);
-    barV('ch-p2',sC,[{data:sC.map(function(_,i){return d.p2[i+1]||0;}),color:sCol,label:'P2'}]);
-
-    var svcs=objSort(d.svc,function(a,b){return b[1].nps-a[1].nps;});
-    var maxN=Math.max.apply(null,svcs.map(function(s){return s[1].n;}));
-    html('svc-chart', svcs.map(function(s){
-      var nm=s[0],v=s[1],c=v.nps>=50?'#1D9E75':v.nps>=0?'#F78805':'#c0392b',w=Math.max(Math.round(v.n/maxN*100),6);
-      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+w+'%;background:#25A0BB">'+v.n+' enc.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:52px;text-align:right">P1:'+v.p1+' P2:'+v.p2+'</div></div>';
-    }).join(''));
-
-    var asegs=objSort(d.aseg,function(a,b){return b[1].nps-a[1].nps;});
-    var maxA=Math.max.apply(null,asegs.map(function(s){return s[1].n;}));
-    html('aseg-chart', asegs.map(function(s){
-      var nm=s[0],v=s[1],c=v.nps>=50?'#1D9E75':v.nps>=0?'#F78805':'#c0392b';
-      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(Math.round(v.n/maxA*100),6)+'%;background:#7A7A7A">'+v.n+' pac.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:36px;text-align:right">n='+v.n+'</div></div>';
-    }).join(''));
+function buildCumplimiento(){
+  // Month rings — build only once (canvas gets destroyed otherwise)
+  if(!cumBuilt){
+    cumBuilt=true;
+    buildRings();
   }
 
-  // ── NPS ──
-  if(pg==='p-nps') {
-    el('nps-num').textContent = sign(nP2.nps)+nP2.nps;
-    el('nps-num').style.color = npsC(nP2.nps);
-    html('nps-badge','<span class="bdg" style="background:'+L2[1]+';color:'+L2[2]+'">'+L2[0]+'</span>');
-    el('nps-p1-num').textContent = sign(nP1.nps)+nP1.nps;
-    el('nps-p1-num').style.color = npsC(nP1.nps);
-    html('nps-p1-badge','<span class="bdg" style="background:'+L1[1]+';color:'+L1[2]+'">'+L1[0]+'</span>');
-    html('nps-formula',
-      'NPS = % Promotores - % Detractores<br>'+
-      'Promotores (9): <b style="color:#1D9E75">'+nP2.prom+'</b> = '+pct(nP2.prom,nP2.tot)+'%<br>'+
-      'Detractores (1-6): <b style="color:#c0392b">'+nP2.det+'</b> = '+pct(nP2.det,nP2.tot)+'%<br>'+
-      'NPS = <b style="color:'+npsC(nP2.nps)+'">'+sign(nP2.nps)+nP2.nps+'</b>'
-    );
-    el('gauge-pin').style.left = (Math.min(Math.max((nP2.nps+100)/200,0),1)*100)+'%';
-    html('nps-segs',
-      seg('#fdecea','#c0392b',nP2.det,'Detractores','Cal. 1-6',pct(nP2.det,nP2.tot))+
-      seg('#fff3e0','#8a4f00',nP2.pas,'Pasivos','Cal. 7-8',pct(nP2.pas,nP2.tot))+
-      seg('#e8f8f1','#0F6E56',nP2.prom,'Promotores','Cal. 9',pct(nP2.prom,nP2.tot))
-    );
-    var cc=el('nps-comp-card');
-    if(m==='all'){
-      cc.style.display='';
-      mkC('ch-npscomp','line',
-        {labels:['Mayo 2026','Junio 2026'], datasets:[
-          {label:'NPS P2',data:[calcNPS(DB.Mayo.p2).nps,calcNPS(DB.Junio.p2).nps],borderColor:'#F78805',backgroundColor:'rgba(247,136,5,.08)',borderWidth:2.5,pointBackgroundColor:'#F78805',pointRadius:7,fill:true,tension:.35},
-          {label:'NPS P1',data:[calcNPS(DB.Mayo.p1).nps,calcNPS(DB.Junio.p1).nps],borderColor:'#6EC1E4',backgroundColor:'rgba(110,193,228,.08)',borderWidth:2.5,pointBackgroundColor:'#6EC1E4',pointRadius:7,fill:true,tension:.35}
-        ]},
-        {responsive:true,maintainAspectRatio:false,
-         plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:function(c){return ' '+c.dataset.label+': '+sign(c.parsed.y)+c.parsed.y;}}}},
-         scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:12},color:'#7A7A7A'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:'#7A7A7A'},min:0,max:100}}},
-        []
-      );
-    } else { cc.style.display='none'; }
-    html('mc-nps',
-      mc('Prom. satisfacci&oacute;n P1',avgP1+'/9','','#F78805')+
-      mc('Prom. recomendaci&oacute;n P2',avgP2+'/9','','#F78805')+
-      mc('Cal. 9 satisfacci&oacute;n',pct(d.p1[9]||0,nP1.tot)+'%',(d.p1[9]||0)+' pacientes','#1D9E75')+
-      mc('Cal. 9 recomendaci&oacute;n',pct(d.p2[9]||0,nP2.tot)+'%',(d.p2[9]||0)+' pacientes','#1D9E75')
-    );
-    html('qual-grid',
-      ql('#e8f8f1','#1D9E75','#0F6E56','Fortalezas','ti-thumb-up','NPS '+sign(nP2.nps)+nP2.nps+' indica '+(nP2.nps>=50?'alta':'positiva')+' lealtad. El '+pct(nP2.prom,nP2.tot)+'% de promotores refleja experiencias sobresalientes. Promedio de satisfacci&oacute;n '+avgP1+'/9 muestra consistencia en la calidad asistencial.')+
-      ql('#fff3e0','#F78805','#8a4f00','Puntos de atenci&oacute;n','ti-alert-triangle',nP2.det+' detractores ('+pct(nP2.det,nP2.tot)+'%) requieren seguimiento inmediato.'+(m==='all'||m==='Mayo'?' Enfermer&iacute;a de turnos presenta NPS negativo (-29), intervenci&oacute;n prioritaria.':'')+' Pacientes con P2 bajo y P1 alto sugieren insatisfacci&oacute;n con aspectos no cl&iacute;nicos.')+
-      ql('#fef7ee','#F78805','#8a4f00','Metodolog&iacute;a NPS','ti-info-circle','Escala 1-9 adaptada: Promotor=9, Pasivo=7-8, Detractor=1-6. NPS = % Promotores - % Detractores. Respondentes P2: '+nP2.tot+'. Referencia sector salud: +30 bueno, +50 excelente, +70 clase mundial.')+
-      ql('#f5f5f5','#7A7A7A','#555','Acciones recomendadas','ti-bulb','Contactar detractores dentro de 48h. Documentar y replicar pr&aacute;cticas de servicios con NPS superior a 70. Monitorear tendencia mensual como KPI estrat&eacute;gico de calidad.')
-    );
-  }
+  // Calendar
+  let calHTML='';
+  WEEKS.forEach(w=>{
+    const p=w.total>0?Math.round(w.sent/w.total*100):null;
+    const bc=p===null?'wb-pend':p>=80?'wb-ok':p>=50?'wb-warn':'wb-bad';
+    const bt=p===null?'⏳ Hoy – pendiente':p+'% enviado ('+w.sent+'/'+w.total+')';
+    const dH=w.days.map(d=>{
+      const ic=d.s==='ok'?'✅':d.s==='today'?'⏳':'❌';
+      const lb=d.s==='ok'?'Enviado':d.s==='today'?'Pendiente':'Sin envío';
+      return `<div class="day-chip ${d.s}"><span class="chip-icon">${ic}</span>${d.d}<span class="chip-lbl">${lb}</span></div>`;
+    }).join('');
+    calHTML+=`<div class="week-row">
+      <div class="week-hdr"><span class="week-hdr-lbl">${w.label}</span><span class="week-badge ${bc}">${bt}</span></div>
+      <div class="days-row">${dH}</div>
+    </div>`;
+  });
+  document.getElementById('cal-grid').innerHTML=calHTML;
 
-  // ── GESTION ──
-  if(pg==='p-gestion') {
-    html('mc-gest',
-      mc('Total registros',d.total.toLocaleString(),'','#F78805')+
-      mc('Contestadas',d.answer.toLocaleString(),'Contact ratio: '+pct(d.answer,d.total)+'%','#1D9E75')+
-      mc('Sin respuesta',d.noAnswer,'','#7A7A7A')+
-      mc('Buz&oacute;n de voz',d.voicemail,'','#7A7A7A')+
-      mc('Encuestas P1',d.encP1,'Survey ratio: '+pct(d.encP1,d.answer)+'%','#1D9E75')+
-      mc('Encuestas P2',d.encP2,pct(d.encP2,d.encP1)+'% completaron P2','#1D9E75')
-    );
-    donut('ch-disp','lg-disp',['Contestadas','Sin respuesta','Buzon','Ocupado'],[d.answer,d.noAnswer,d.voicemail,d.busy+d.invalid],['#F78805','#6EC1E4','#7A7A7A','#c0c0c0'],'llamadas');
-    donut('ch-dur','lg-dur',['>45 seg','1-15 seg','16-30 seg','31-45 seg'],[d.durGt45,d.dur1_15,d.dur16_30,d.dur31_45],['#F78805','#6EC1E4','#25A0BB','#c0c0c0'],'contestadas');
-    var svcsG=objSort(d.svc,function(a,b){return b[1].n-a[1].n;});
-    barH('ch-serv','ch-serv-w',svcsG.map(function(s){return s[0];}),svcsG.map(function(s){return s[1].n;}),'#6EC1E4',svcsG.length*40+60);
-  }
+  // DOW boxes
+  document.getElementById('dow-analysis').innerHTML=DOW_STATS.map(d=>{
+    const p=Math.round(d.sent/d.total*100);
+    const miss=d.total-d.sent;
+    const col=p>=80?'#1a9e60':p>=50?'#d4820a':'#c0392b';
+    const rc=p>=80?'b-g':p>=50?'b-y':'b-r';
+    return `<div class="dow-box">
+      <div class="dow-n" style="color:${col}">${d.sent}<span style="font-size:13px;color:var(--text2)">/${d.total}</span></div>
+      <div class="dow-l">${d.n}</div>
+      <div class="dow-rate"><span class="bdg ${rc}">${p}% enviado</span></div>
+      <div class="streak-bar"><div class="streak-fill" style="width:${p}%;background:${col}"></div></div>
+      ${miss>0?`<div style="font-size:10px;color:#c0392b;margin-top:4px;font-weight:600;">${miss} día${miss>1?'s':''} perdido${miss>1?'s':''}</div>`:'<div style="font-size:10px;color:#1a9e60;margin-top:4px;font-weight:600;">✅ Perfecto</div>'}
+    </div>`;
+  }).join('');
 
-  // ── FRANJAS ──
-  if(pg==='p-franjas') {
-    var tasas=d.hrC.map(function(c,i){return c>0?parseFloat((d.hrE[i]/c*100).toFixed(1)):0;});
-    var hrOpt=d.hrC.indexOf(Math.max.apply(null,d.hrC));
-    var tOpt=tasas.indexOf(Math.max.apply(null,tasas));
-    html('mc-franjas',
-      mc('Franja pico de contacto',HORAS[hrOpt],d.hrC[hrOpt]+' contestadas','#F78805')+
-      mc('Mayor tasa conversi&oacute;n',HORAS[tOpt],tasas[tOpt]+'% responden encuesta','#185FA5')+
-      mc('Mejor d&iacute;a','Viernes',d.dC[4]+' contactadas','#1D9E75')+
-      mc('Franja a evitar','18-19h','Tasa encuesta muy baja','#c0392b')
-    );
-    barV('ch-horas',HORAS,[{data:d.hrC,color:'#1D9E75',label:'Contactadas'},{data:d.hrE,color:'#7A7A7A',label:'Encuestas'}]);
-    html('conv-bars',HORAS.map(function(h,i){
-      var t=tasas[i],c=t>=75?'#1D9E75':t>=55?'#6EC1E4':'#c0392b',bg=t>=75?'#e8f8f1':t>=55?'#e8f4fa':'#fdecea';
-      return '<div class="hr"><div class="hrl">'+h+'</div><div class="hrbw"><div class="hrb" style="width:'+Math.max(t,3)+'%;background:'+c+'">'+(t>=35?t+'%':'')+'</div></div><div class="hrn">'+t+'%</div><span class="tp" style="background:'+bg+';color:'+c+'">'+(t>=75?'Alta':t>=55?'Media':'Baja')+'</span></div>';
-    }).join(''));
-    barV('ch-dias',DIAS,[{data:d.dC,color:'#1D9E75',label:'Contactadas'},{data:d.dE,color:'#7A7A7A',label:'Encuestas'}]);
-    html('franjas-ins',
-      ins('#e8f4fa','#185FA5','ti-clock','Ventana de oro: 10:00-12:00','Concentra el mayor volumen de contacto. Priorizar la marcaci&oacute;n masiva en este bloque maximiza el alcance de la gesti&oacute;n.')+
-      ins('#fef7ee','#F78805','ti-target','Horario de calidad: 13:00-16:00','Tasas de conversi&oacute;n superiores al 75%. Menor volumen pero mayor disposici&oacute;n del paciente. Ideal para seguimiento prioritario.')+
-      ins('#f5f5f5','#555','ti-calendar','Priorizar viernes y martes','Viernes concentra ~30% de contactos semanales y la mayor tasa de respuesta. Martes es el segundo d&iacute;a m&aacute;s productivo.')+
-      ins('#fdecea','#8B0000','ti-ban','Evitar despu&eacute;s de las 18:00','Tasas inferiores al 32%. Redistribuir esos intentos hacia los bloques de ma&ntilde;ana para mejorar el retorno.')
-    );
-  }
+  // Stacked bar chart
+  const gc='rgba(0,0,0,0.04)',tc='#666';
+  if(cCumBar)cCumBar.destroy();
+  const wFilter=WEEKS.filter(w=>w.total>0);
+  cCumBar=new Chart(document.getElementById('chart-cum-bar'),{
+    type:'bar',
+    data:{labels:wFilter.map(w=>w.label),datasets:[
+      {label:'✅ Enviado',  data:wFilter.map(w=>w.sent),       backgroundColor:'#1a9e60',borderRadius:4,stack:'s'},
+      {label:'❌ Sin envío',data:wFilter.map(w=>w.total-w.sent),backgroundColor:'#c0392b',borderRadius:4,stack:'s'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}},datalabels:{display:false}},
+      scales:{x:{ticks:{color:tc,font:{size:10}},grid:{color:gc}},
+        y:{beginAtZero:true,max:7,ticks:{color:tc,stepSize:1},grid:{color:gc}}}}
+  });
+
+  // Impacto
+  const avg=90;
+  document.getElementById('impacto-grid').innerHTML=[
+    {l:'Días hábiles sin base', n:13, col:'#c0392b'},
+    {l:'Citas est. sin confirmar',n:'~1.170',col:'#d4820a'},
+    {l:'Pacientes no contactados',n:'~936',  col:'#6a3db8'},
+  ].map(x=>`<div class="br" style="padding:6px 0;border-bottom:1px solid var(--border);">
+    <div class="bl" style="width:180px;">${x.l}</div>
+    <div style="flex:1;font-size:20px;font-weight:900;color:${x.col};text-align:right;">${x.n}</div>
+  </div>`).join('');
+
+  // Table
+  const DOW_COLOR={'Sábado':'b-r','Lunes':'b-y','Jueves':'b-y','Martes':'b-gr','Viernes':'b-gr'};
+  const MES_COLOR={'Mayo':'b-b','Junio':'b-g'};
+  document.getElementById('tbl-missing').innerHTML=MISSING_DAYS.map((m,i)=>`<tr>
+    <td>${i+1}</td>
+    <td><strong>${m.d}</strong></td>
+    <td><span class="bdg ${DOW_COLOR[m.dow]||'b-gr'}">${m.dow}</span></td>
+    <td>${m.wk}</td>
+    <td><span class="bdg ${MES_COLOR[m.mes]}">${m.mes}</span></td>
+    <td style="color:#c0392b;font-weight:700;">~${avg} citas</td>
+  </tr>`).join('');
 }
 
-// ── PLANTILLAS HTML ────────────────────────────────────
-function mc(lbl,val,sub,color){
-  return '<div class="mc"><div class="mc-lbl">'+lbl+'</div><div class="mc-val" style="color:'+color+'">'+val+'</div>'+(sub?'<div class="mc-sub">'+sub+'</div>':'')+'</div>';
-}
-function seg(bg,color,v,lbl,cal,p){
-  return '<div class="seg" style="background:'+bg+'"><div class="seg-v" style="color:'+color+'">'+v+'</div><div class="seg-l" style="color:'+color+'">'+lbl+'</div><div class="seg-p" style="color:'+color+'">'+cal+' &middot; '+p+'%</div></div>';
-}
-function ql(bg,bc,tc,titulo,icon,texto){
-  return '<div class="ql" style="background:'+bg+';border-color:'+bc+'"><div class="ql-t" style="color:'+tc+'"><i class="ti '+icon+'" aria-hidden="true"></i> '+titulo+'</div><div class="ql-b" style="color:'+tc+'">'+texto+'</div></div>';
-}
-function ins(bg,tc,icon,titulo,texto){
-  return '<div class="ins" style="background:'+bg+'"><div class="ins-t" style="color:'+tc+'"><i class="ti '+icon+'" aria-hidden="true"></i> '+titulo+'</div><div class="ins-b" style="color:'+tc+'">'+texto+'</div></div>';
-}
-function objSort(obj, fn){
-  return Object.keys(obj).map(function(k){return[k,obj[k]];}).sort(fn);
+function buildRings(){
+  const months=[
+    {id:'mayo', data:MONTHS_CUM.mayo, ringId:'ring-mayo', lblId:'ring-mayo-lbl', statsId:'stats-mayo'},
+    {id:'junio',data:MONTHS_CUM.junio,ringId:'ring-junio',lblId:'ring-junio-lbl',statsId:'stats-junio'},
+    {id:'total',data:MONTHS_CUM.total,ringId:'ring-total',lblId:'ring-total-lbl',statsId:'stats-total'},
+  ];
+  months.forEach(m=>{
+    const d=m.data;
+    const pctEnv=Math.round(d.sent/d.habil*100);
+    const pctMiss=100-pctEnv;
+    const col=pctEnv>=80?'#1a9e60':pctEnv>=60?'#d4820a':'#c0392b';
+    new Chart(document.getElementById(m.ringId),{
+      type:'doughnut',
+      data:{labels:['Enviado','Sin envío'],
+        datasets:[{data:[d.sent,d.missing],
+          backgroundColor:[col,'#fee2e2'],borderWidth:2,borderColor:'#fff'}]},
+      options:{cutout:'68%',responsive:false,
+        plugins:{legend:{display:false},tooltip:{display:false},datalabels:{display:false}}}
+    });
+    document.getElementById(m.lblId).innerHTML=
+      `<span style="font-size:18px;color:${col}">${pctEnv}%</span><br><span style="font-size:9px;color:#666">enviado</span>`;
+    document.getElementById(m.statsId).innerHTML=[
+      {l:'Días hábiles',v:d.habil},
+      {l:'Con base ✅',  v:d.sent,   vc:'#1a9e60'},
+      {l:'Sin base ❌',  v:d.missing, vc:'#c0392b'},
+      {l:'Incumplim.',  v:pctMiss+'%',vc:pctMiss>=40?'#c0392b':'#d4820a'},
+    ].map(s=>`<div class="cm-stat"><span class="cm-stat-l">${s.l}</span><span class="cm-stat-v" style="${s.vc?'color:'+s.vc:''}">${s.v}</span></div>`).join('');
+  });
 }
 
-// ── INICIO ─────────────────────────────────────────────
-render();
+// ══ INIT ═════════════════════════════════════════════════════════
+onPeriodo();
 </script>
 </body>
 </html>
