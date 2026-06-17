@@ -134,7 +134,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
   <div class="mcards" id="mc-franjas"></div>
   <div class="card">
     <div class="ct"><i class="ti ti-chart-bar" aria-hidden="true"></i>Contactadas vs encuestas por hora</div>
-    <div class="lg"><span><span class="lgd" style="background:#F78805"></span>Contactadas</span><span><span class="lgd" style="background:#6EC1E4"></span>Encuesta respondida</span></div>
+    <div class="lg"><span><span class="lgd" style="background:#1D9E75"></span>Contactadas</span><span><span class="lgd" style="background:#7A7A7A"></span>Encuesta respondida</span></div>
     <div style="position:relative;height:230px"><canvas id="ch-horas"></canvas></div>
   </div>
   <div class="two">
@@ -359,14 +359,14 @@ function render() {
     var maxN=Math.max.apply(null,svcs.map(function(s){return s[1].n;}));
     html('svc-chart', svcs.map(function(s){
       var nm=s[0],v=s[1],c=v.nps>=50?'#1D9E75':v.nps>=0?'#F78805':'#c0392b',w=Math.max(Math.round(v.n/maxN*100),6);
-      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+w+'%;background:#F78805">'+v.n+' enc.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:52px;text-align:right">P1:'+v.p1+' P2:'+v.p2+'</div></div>';
+      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+w+'%;background:#25A0BB">'+v.n+' enc.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:52px;text-align:right">P1:'+v.p1+' P2:'+v.p2+'</div></div>';
     }).join(''));
 
     var asegs=objSort(d.aseg,function(a,b){return b[1].nps-a[1].nps;});
     var maxA=Math.max.apply(null,asegs.map(function(s){return s[1].n;}));
     html('aseg-chart', asegs.map(function(s){
       var nm=s[0],v=s[1],c=v.nps>=50?'#1D9E75':v.nps>=0?'#F78805':'#c0392b';
-      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(Math.round(v.n/maxA*100),6)+'%;background:#25A0BB">'+v.n+' pac.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:36px;text-align:right">n='+v.n+'</div></div>';
+      return '<div class="sr"><div class="sn" title="'+nm+'">'+nm+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(Math.round(v.n/maxA*100),6)+'%;background:#7A7A7A">'+v.n+' pac.</div></div><div class="snps" style="color:'+c+'">'+(v.nps>=0?'+':'')+v.nps+'</div><div style="font-size:10px;color:#aaa;min-width:36px;text-align:right">n='+v.n+'</div></div>';
     }).join(''));
   }
 
@@ -431,7 +431,7 @@ function render() {
     donut('ch-disp','lg-disp',['Contestadas','Sin respuesta','Buzon','Ocupado'],[d.answer,d.noAnswer,d.voicemail,d.busy+d.invalid],['#F78805','#6EC1E4','#7A7A7A','#c0c0c0'],'llamadas');
     donut('ch-dur','lg-dur',['>45 seg','1-15 seg','16-30 seg','31-45 seg'],[d.durGt45,d.dur1_15,d.dur16_30,d.dur31_45],['#F78805','#6EC1E4','#25A0BB','#c0c0c0'],'contestadas');
     var svcsG=objSort(d.svc,function(a,b){return b[1].n-a[1].n;});
-    barH('ch-serv','ch-serv-w',svcsG.map(function(s){return s[0];}),svcsG.map(function(s){return s[1].n;}),'#F78805',svcsG.length*40+60);
+    barH('ch-serv','ch-serv-w',svcsG.map(function(s){return s[0];}),svcsG.map(function(s){return s[1].n;}),'#6EC1E4',svcsG.length*40+60);
   }
 
   // ── FRANJAS ──
@@ -441,18 +441,18 @@ function render() {
     var tOpt=tasas.indexOf(Math.max.apply(null,tasas));
     html('mc-franjas',
       mc('Franja pico de contacto',HORAS[hrOpt],d.hrC[hrOpt]+' contestadas','#F78805')+
-      mc('Mayor tasa conversi&oacute;n',HORAS[tOpt],tasas[tOpt]+'% responden encuesta','#8a4f00')+
+      mc('Mayor tasa conversi&oacute;n',HORAS[tOpt],tasas[tOpt]+'% responden encuesta','#185FA5')+
       mc('Mejor d&iacute;a','Viernes',d.dC[4]+' contactadas','#1D9E75')+
       mc('Franja a evitar','18-19h','Tasa encuesta muy baja','#c0392b')
     );
-    barV('ch-horas',HORAS,[{data:d.hrC,color:'#F78805',label:'Contactadas'},{data:d.hrE,color:'#6EC1E4',label:'Encuestas'}]);
+    barV('ch-horas',HORAS,[{data:d.hrC,color:'#1D9E75',label:'Contactadas'},{data:d.hrE,color:'#7A7A7A',label:'Encuestas'}]);
     html('conv-bars',HORAS.map(function(h,i){
-      var t=tasas[i],c=t>=75?'#1D9E75':t>=55?'#F78805':'#c0392b',bg=t>=75?'#e8f8f1':t>=55?'#fff3e0':'#fdecea';
+      var t=tasas[i],c=t>=75?'#1D9E75':t>=55?'#6EC1E4':'#c0392b',bg=t>=75?'#e8f8f1':t>=55?'#e8f4fa':'#fdecea';
       return '<div class="hr"><div class="hrl">'+h+'</div><div class="hrbw"><div class="hrb" style="width:'+Math.max(t,3)+'%;background:'+c+'">'+(t>=35?t+'%':'')+'</div></div><div class="hrn">'+t+'%</div><span class="tp" style="background:'+bg+';color:'+c+'">'+(t>=75?'Alta':t>=55?'Media':'Baja')+'</span></div>';
     }).join(''));
-    barV('ch-dias',DIAS,[{data:d.dC,color:'#F78805',label:'Contactadas'},{data:d.dE,color:'#6EC1E4',label:'Encuestas'}]);
+    barV('ch-dias',DIAS,[{data:d.dC,color:'#1D9E75',label:'Contactadas'},{data:d.dE,color:'#7A7A7A',label:'Encuestas'}]);
     html('franjas-ins',
-      ins('#fff3e0','#8a4f00','ti-clock','Ventana de oro: 10:00-12:00','Concentra el mayor volumen de contacto. Priorizar la marcaci&oacute;n masiva en este bloque maximiza el alcance de la gesti&oacute;n.')+
+      ins('#e8f4fa','#185FA5','ti-clock','Ventana de oro: 10:00-12:00','Concentra el mayor volumen de contacto. Priorizar la marcaci&oacute;n masiva en este bloque maximiza el alcance de la gesti&oacute;n.')+
       ins('#fef7ee','#F78805','ti-target','Horario de calidad: 13:00-16:00','Tasas de conversi&oacute;n superiores al 75%. Menor volumen pero mayor disposici&oacute;n del paciente. Ideal para seguimiento prioritario.')+
       ins('#f5f5f5','#555','ti-calendar','Priorizar viernes y martes','Viernes concentra ~30% de contactos semanales y la mayor tasa de respuesta. Martes es el segundo d&iacute;a m&aacute;s productivo.')+
       ins('#fdecea','#8B0000','ti-ban','Evitar despu&eacute;s de las 18:00','Tasas inferiores al 32%. Redistribuir esos intentos hacia los bloques de ma&ntilde;ana para mejorar el retorno.')
